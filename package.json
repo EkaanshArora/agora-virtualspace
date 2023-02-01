@@ -28,6 +28,7 @@
     "react-dom": "18.2.0",
     "superjson": "1.9.1",
     "three": "^0.149.0",
+    "use-animated-sprite": "^1.0.2",
     "zod": "^3.20.2"
   },
   "devDependencies": {

@@ -36,6 +36,7 @@ specifiers:
   tailwindcss: ^3.2.0
   three: ^0.149.0
   typescript: ^4.9.4
+  use-animated-sprite: ^1.0.2
   zod: ^3.20.2
 
 dependencies:
@@ -57,6 +58,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   superjson: 1.9.1
   three: 0.149.0
+  use-animated-sprite: 1.0.2
   zod: 3.20.2
 
 devDependencies:
@@ -3318,6 +3320,11 @@ packages:
     dependencies:
       punycode: 2.3.0
     dev: true
+
+  /use-animated-sprite/1.0.2:
+    resolution: {integrity: sha512-unDmkiUVLPk+DGmCALE9kAM35E4AckHA4PIv6Dj5AP7Si1KLeBgZcTZWltSOL/vcVa4WpwzSdjCyyHMPJ8phpA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /use-sync-external-store/1.2.0_react@18.2.0:
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
