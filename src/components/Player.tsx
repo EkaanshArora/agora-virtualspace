@@ -1,13 +1,14 @@
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
-import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
+import type { Dispatch, MutableRefObject, SetStateAction} from "react";
+import { useState } from "react";
 import { useRef } from "react";
 import type { Sprite} from "three";
-// import { TextureLoader } from "three";
 import { Vector3 } from "three";
 import type { Controls } from "./types";
 import { rtmChannel } from "./Fiber";
 import { useAnimatedSprite } from 'use-animated-sprite';
+import { spriteConfigs } from "./utils";
 
 const charSize = 1.2;
 const _velocity = new Vector3();
@@ -23,8 +24,8 @@ export const Player = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
 }) => {
   const ref = useRef<Sprite>(null);
-  const [s, _ss] = useState(spriteConfigs.left)
-  const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, s)
+  const [spriteState, setSpriteState] = useState(spriteConfigs.left)
+  const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, spriteState)
   const counter = useRef(0);
   const { setPlayerPos } = props;
   const [, get] = useKeyboardControls<Controls>();
@@ -33,24 +34,24 @@ export const Player = (props: {
     const state = get();
     if (state.left && !state.right) {
       _velocity.x = -1;
-      _ss(spriteConfigs.left)
+      setSpriteState(spriteConfigs.left)
     }
     if (state.right && !state.left) {
       _velocity.x = 1;
-      _ss(spriteConfigs.right)
+      setSpriteState(spriteConfigs.right)
     }
     if (!state.left && !state.right) {
       _velocity.x = -0;
-      _ss(spriteConfigs.stand)
+      setSpriteState(spriteConfigs.stand)
     }
     
     if (state.forward && !state.back){
       _velocity.y = 1;
-      _ss(spriteConfigs.up)
+      setSpriteState(spriteConfigs.up)
     }
     if (state.back && !state.forward){
       _velocity.y = -1;
-      _ss(spriteConfigs.down)
+      setSpriteState(spriteConfigs.down)
     }
     if (!state.forward && !state.back) _velocity.y = 0;
     
@@ -71,51 +72,3 @@ export const Player = (props: {
     </sprite>
   );
 };
-
-const spriteConfigs = {
-  stand:{
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 1,
-    spriteX: 0,
-    spriteY: 7,
-    interval: 0.2,
-  },
-  left:{
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 0,
-    interval: 0.2,
-  },
-  right:{
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 1,
-    interval: 0.2,
-  },
-  up:{
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 2,
-    interval: 0.2,
-  },
-  down: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 3,
-    interval: 0.2,
-  }
-}
