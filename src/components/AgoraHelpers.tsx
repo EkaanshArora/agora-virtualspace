@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { Vector3 } from "three";
+import type { Vector3 } from "three";
 import type { RtmMessage, RtmTextMessage } from "agora-rtm-sdk";
 import type { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 import type { remoteUserType } from "./types";
@@ -32,16 +32,7 @@ export const handleRtcUnpublish = (
     });
   }
 };
-export const handleMemberJoined = (
-  memberId: string,
-  setRemoteUsers: Dispatch<SetStateAction<remoteUserType>>
-) => {
-  console.log("!join", memberId);
-  setRemoteUsers((p) => ({
-    ...p,
-    [parseInt(memberId)]: { position: new Vector3(0, 0, 0) },
-  }));
-};
+
 export const handleChannelMessage = (
   message: RtmMessage,
   uid: string,

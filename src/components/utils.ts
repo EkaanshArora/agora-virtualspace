@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Vector3 } from "three";
+import type { Dispatch, SetStateAction } from "react";
+import type { Vector3 } from "three";
 
 export const handleSprite = (_ss: Dispatch<SetStateAction<{
   spriteSheetUrl: string;

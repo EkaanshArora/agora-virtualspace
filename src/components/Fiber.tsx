@@ -7,7 +7,6 @@ import { Game } from "./Game";
 import {
   handleRtcPublish,
   handleRtcUnpublish,
-  handleMemberJoined,
   handleChannelMessage,
 } from "./AgoraHelpers";
 import { env } from "../env/client.mjs";
@@ -50,9 +49,6 @@ function App() {
       }
       // RTM
       try {
-        rtmChannel.on("MemberJoined", (user) =>
-          handleMemberJoined(user, setRemoteUsers)
-        );
         rtmChannel.on("ChannelMessage", (message, uid) =>
           handleChannelMessage(message, uid, setRemoteUsers)
         );
