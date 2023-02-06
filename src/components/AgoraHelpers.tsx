@@ -3,7 +3,7 @@ import type { Vector3 } from "three";
 import type { RtmMessage, RtmTextMessage } from "agora-rtm-sdk";
 import type { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 import type { remoteUserType } from "./types";
-import { AgoraDict } from "./Fiber";
+import { AgoraDict } from "./GameContainer";
 
 export const handleRtcPublish = (
   user: IAgoraRTCRemoteUser,

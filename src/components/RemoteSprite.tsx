@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import type { MutableRefObject} from "react";
 import { useRef, useState } from "react";
 import type { Vector3, Sprite } from "three";
-import { AgoraDict, rtcClient } from "./Fiber";
+import { AgoraDict, rtcClient } from "./GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
 import { handleSprite, spriteConfigs } from "./utils";
 
@@ -53,7 +53,7 @@ export const RemoteSprite = (props: {
             .catch((e) => console.log(e));
         }
       } else {
-        console.error("no user", agoraUser, AgoraDict);
+        console.warn("no user", agoraUser, AgoraDict);
       }
     }
   });

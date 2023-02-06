@@ -6,7 +6,7 @@ import { useRef } from "react";
 import type { Sprite} from "three";
 import { Vector3 } from "three";
 import type { Controls } from "./types";
-import { rtmChannel } from "./Fiber";
+import { rtmChannel } from "./GameContainer";
 import { useAnimatedSprite } from 'use-animated-sprite';
 import { spriteConfigs } from "./utils";
 

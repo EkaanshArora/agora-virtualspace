@@ -54,8 +54,18 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    time          DateTime  @default(now())
+    rooms         Room[]
     accounts      Account[]
     sessions      Session[]
+}
+
+model Room {
+  roomId      String  @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

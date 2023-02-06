@@ -15,19 +15,28 @@ import { styles } from "./styles";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
-const localUid = Math.floor(Math.random() * 10);
 const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
 const localVideoTrack = await AgoraRTC.createCameraVideoTrack();
 export let AgoraDict: { [uid: number]: agoraUserType } = {};
 export const rtmClient = AgoraRTM.createInstance(appId, {
   logFilter: AgoraRTM.LOG_FILTER_WARNING,
 });
-export const rtmChannel = rtmClient.createChannel("location");
+
+// channelname is extracted from the URL
+export const rtmChannel = rtmClient.createChannel(
+  window.location.pathname.slice("/game/".length)
+);
 export const rtcClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
-function App() {
+function App(props: {
+  agoraId: number;
+  rtcToken: string;
+  rtmToken: string;
+  channel: string;
+}) {
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
   const [playerPos, setPlayerPos] = useState(new Vector3());
+  const { agoraId, rtcToken, rtmToken, channel } = props;
   useEffect(() => {
     async function init() {
       // RTC
@@ -36,28 +45,28 @@ function App() {
         rtcClient.on("user-unpublished", (user, type) =>
           handleRtcUnpublish(user, type, setRemoteUsers)
         );
-
-        await rtcClient.join(appId, "test", null, localUid);
+        console.log("!", agoraId, rtcToken);
+        await rtcClient.join(appId, channel, rtcToken, agoraId);
         await rtcClient
           .publish([localAudioTrack, localVideoTrack])
           .catch((e) => {
             console.log(e);
           });
-        console.log("joined RTC: " + String(localUid));
+        console.log("!joined RTC: " + String(agoraId));
       } catch (e) {
-        console.log(e);
+        console.log("!", e);
       }
       // RTM
       try {
         rtmChannel.on("ChannelMessage", (message, uid) =>
           handleChannelMessage(message, uid, setRemoteUsers)
         );
-        await rtmClient.login({ uid: String(localUid) });
+        await rtmClient.login({ uid: String(agoraId), token: rtmToken });
         await rtmChannel.join();
       } catch (e) {
         console.log(e);
       }
-      console.log(`joined RTM: ${localUid} ${rtmChannel.channelId}`);
+      console.log(`joined RTM: ${agoraId} ${rtmChannel.channelId}`);
     }
     void init();
 
