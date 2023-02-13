@@ -10,7 +10,7 @@ import {
   handleChannelMessage,
 } from "./AgoraHelpers";
 import { env } from "../env/client.mjs";
-import type { agoraUserType, remoteUserType } from "./types";
+import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
 import { styles } from "./styles";
 
 AgoraRTC.setLogLevel(2);
@@ -33,10 +33,11 @@ function App(props: {
   rtcToken: string;
   rtmToken: string;
   channel: string;
+  character: customSpriteConfig;
 }) {
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
   const [playerPos, setPlayerPos] = useState(new Vector3());
-  const { agoraId, rtcToken, rtmToken, channel } = props;
+  const { agoraId, rtcToken, rtmToken, channel, character } = props;
   useEffect(() => {
     async function init() {
       // RTC
@@ -114,6 +115,7 @@ function App(props: {
         setPlayerPos={setPlayerPos}
         remoteUsers={remoteUsers}
         playerPos={playerPos}
+        character={character}
       />
     </div>
   );

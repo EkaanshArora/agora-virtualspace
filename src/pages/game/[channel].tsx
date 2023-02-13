@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { characters } from "../../components/utils";
 import { api } from "../../utils/api";
 
 const Game = dynamic(() => import("../../components/GameContainer"), {
@@ -12,9 +13,13 @@ const Call = () => {
   const router = useRouter();
   const session = useSession();
   const [ready, setReady] = useState(false);
-  const q = api.example.getToken.useQuery({
-    channel: router.query.channel as string,
-  }, {refetchOnWindowFocus: false});
+  const q = api.example.getToken.useQuery(
+    { channel: router.query.channel as string },
+    {
+      refetchOnWindowFocus: false,
+      enabled: router.query.channel !== undefined,
+    }
+  );
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -28,7 +33,7 @@ const Call = () => {
 
   return ready ? (
     <>
-      <h1 className="text-2xl font-bold">{router.query.name}</h1>
+      {/* <h1 className="text-2xl font-bold">{router.query.name}</h1> */}
       {q.data.agoraId ? (
         <>
           <button
@@ -46,6 +51,13 @@ const Call = () => {
             agoraId={q.data.agoraId}
             rtmToken={q.data.rtm}
             rtcToken={q.data.rtc}
+            character={
+              router.query.character === "birb"
+                ? characters.pet
+                : router.query.character === "devil"
+                ? characters.devil
+                : characters.timmy
+            }
           />
         </>
       ) : (

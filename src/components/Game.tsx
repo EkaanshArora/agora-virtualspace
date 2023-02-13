@@ -7,15 +7,16 @@ import type { Vector3 } from "three";
 import { Stage } from "./Stage";
 import { Player } from "./Player";
 import { RemoteSprite } from "./RemoteSprite";
-import type { remoteUserType, userPosition } from "./types";
+import type { customSpriteConfig, remoteUserType, userPosition } from "./types";
 import { Controls } from "./types";
 
 export const Game = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
   remoteUsers: remoteUserType;
   playerPos: Vector3;
+  character: customSpriteConfig;
 }) => {
-  const { playerPos, remoteUsers, setPlayerPos } = props;
+  const { playerPos, remoteUsers, setPlayerPos, character } = props;
   const keyMap = useMemo<KeyboardControlsEntry<Controls>[]>(
     () => [
       { name: Controls.forward, keys: ["ArrowUp", "w", "W"] },
@@ -32,7 +33,7 @@ export const Game = (props: {
       <Canvas>
         <KeyboardControls map={keyMap}>
           <Stage />
-          <Player setPlayerPos={setPlayerPos} />
+          <Player setPlayerPos={setPlayerPos} character={character} />
           {Object.keys(remoteUsers).map((u) => (
             <RemoteSprite
               playerPos={playerPos}

@@ -1,13 +1,12 @@
 import { useFrame } from "@react-three/fiber";
-import type { MutableRefObject} from "react";
+import type { MutableRefObject } from "react";
 import { useRef, useState } from "react";
 import type { Vector3, Sprite } from "three";
 import { AgoraDict, rtcClient } from "./GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { handleSprite, spriteConfigs } from "./utils";
+import { handleSprite, getRandomPet } from "./utils";
 
 const distanceToUnsubscribe = 1;
-const charSize = spriteConfigs.charSize;
 
 export const RemoteSprite = (props: {
   position: Vector3;
@@ -15,7 +14,9 @@ export const RemoteSprite = (props: {
   uid: number;
 }) => {
   const ref = useRef<Sprite>(null);
-  const [sprite, setSprite] = useState(spriteConfigs.left);
+  const randomPetRef = useRef(getRandomPet());
+  const spriteConfigPet = randomPetRef.current;
+  const [sprite, setSprite] = useState(spriteConfigPet.stand);
   const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, sprite);
   const { position, playerPos, uid } = props;
   useFrame(() => {
@@ -24,7 +25,7 @@ export const RemoteSprite = (props: {
     if (remotePos) {
       remotePos.lerp(position, 0.5);
       // spritesheet logic
-      handleSprite(setSprite, position, remotePos) 
+      handleSprite(setSprite, position, remotePos, spriteConfigPet);
 
       // subscription logic
       if (agoraUser) {
@@ -56,7 +57,7 @@ export const RemoteSprite = (props: {
     }
   });
   return (
-    <sprite ref={ref} scale={charSize}>
+    <sprite ref={ref} scale={spriteConfigPet.charSize}>
       <spriteMaterial map={texture} />
     </sprite>
   );

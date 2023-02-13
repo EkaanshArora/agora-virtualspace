@@ -19,3 +19,23 @@ export enum Controls {
   right = "right",
   jump = "jump",
 }
+
+type SpriteSheetConfig = {
+  spriteSheetUrl: string;
+  xCount: number;
+  yCount: number;
+  spriteX: number;
+  spriteY: number;
+  spriteFrames: number;
+  interval: number;
+}
+
+export type customSpriteConfig = {
+  charSize: number | Vector3,
+  speed: number,
+  stand: SpriteSheetConfig,
+  left: SpriteSheetConfig,
+  right: SpriteSheetConfig,
+  up: SpriteSheetConfig,
+  down: SpriteSheetConfig,
+}
