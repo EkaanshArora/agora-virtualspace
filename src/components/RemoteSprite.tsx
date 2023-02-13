@@ -7,7 +7,7 @@ import { useAnimatedSprite } from "use-animated-sprite";
 import { handleSprite, spriteConfigs } from "./utils";
 
 const distanceToUnsubscribe = 1;
-const charSize = 1.2;
+const charSize = spriteConfigs.charSize;
 
 export const RemoteSprite = (props: {
   position: Vector3;
@@ -32,7 +32,6 @@ export const RemoteSprite = (props: {
           remotePos.distanceTo(playerPos) > distanceToUnsubscribe &&
           agoraUser.isSubscribed
         ) {
-          console.log("!UNSUB");
           void rtcClient
             .unsubscribe(agoraUser.agoraUser)
             .then(() => (agoraUser.isSubscribed = false))
@@ -42,7 +41,6 @@ export const RemoteSprite = (props: {
           remotePos.distanceTo(playerPos) < distanceToUnsubscribe &&
           !agoraUser.isSubscribed
         ) {
-          console.log("!SUB");
           void rtcClient
             .subscribe(agoraUser.agoraUser, "audio")
             .then((t) => t.play())

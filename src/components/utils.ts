@@ -1,15 +1,21 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { Vector3 } from "three";
+import { Vector3 } from "three";
 
-export const handleSprite = (_ss: Dispatch<SetStateAction<{
-  spriteSheetUrl: string;
-  xCount: number;
-  yCount: number;
-  spriteFrames: number;
-  spriteX: number;
-  spriteY: number;
-  interval: number;
-}>>, position: Vector3, remotePos: Vector3) => {
+export const handleSprite = (
+  _ss: Dispatch<
+    SetStateAction<{
+      spriteSheetUrl: string;
+      xCount: number;
+      yCount: number;
+      spriteFrames: number;
+      spriteX: number;
+      spriteY: number;
+      interval: number;
+    }>
+  >,
+  position: Vector3,
+  remotePos: Vector3
+) => {
   if (
     Math.abs(position.x - remotePos.x) < 1e-4 &&
     Math.abs(position.y - remotePos.y) < 1e-4
@@ -34,53 +40,71 @@ export const handleSprite = (_ss: Dispatch<SetStateAction<{
       _ss(spriteConfigs.down);
     }
   }
-}
+};
 
-
+const babyCommon = {
+  spriteSheetUrl: `/charh.png`,
+  xCount: 8,
+  yCount: 8,
+  interval: 0.2,
+  spriteX: 0,
+};
 export const spriteConfigs = {
+  charSize: 1.2,
+  speed: 1,
   stand: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
+    ...babyCommon,
     spriteFrames: 1,
-    spriteX: 0,
     spriteY: 7,
-    interval: 0.2,
   },
   left: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
+    ...babyCommon,
     spriteFrames: 6,
-    spriteX: 0,
     spriteY: 0,
-    interval: 0.2,
   },
   right: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
+    ...babyCommon,
     spriteFrames: 6,
-    spriteX: 0,
     spriteY: 1,
-    interval: 0.2,
+  },
+  up: { ...babyCommon, spriteFrames: 6, spriteX: 0, spriteY: 2, interval: 0.2 },
+  down: {
+    ...babyCommon,
+    spriteFrames: 6,
+    spriteY: 3,
+  },
+};
+
+const timmyCommon = {
+  spriteSheetUrl: `/sprite.png`,
+  xCount: 4,
+  yCount: 5,
+  interval: 0.1,
+  spriteX: 0,
+  spriteFrames: 4,
+};
+const timmySize = new Vector3(0.3, 0.6, 0);
+export const spriteConfigTimmy = {
+  charSize: timmySize,
+  speed: 1,
+  stand: {
+    ...timmyCommon,
+    spriteY: 0,
+  },
+  left: {
+    ...timmyCommon,
+    spriteY: 3,
+  },
+  right: {
+    ...timmyCommon,
+    spriteY: 2,
   },
   up: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 2,
-    interval: 0.2,
+    ...timmyCommon,
+    spriteY: 1,
   },
   down: {
-    spriteSheetUrl: `/charh.png`,
-    xCount: 8,
-    yCount: 8,
-    spriteFrames: 6,
-    spriteX: 0,
-    spriteY: 3,
-    interval: 0.2,
+    ...timmyCommon,
+    spriteY: 4,
   },
 };

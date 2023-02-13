@@ -14,7 +14,7 @@ const Call = () => {
   const [ready, setReady] = useState(false);
   const q = api.example.getToken.useQuery({
     channel: router.query.channel as string,
-  });
+  }, {refetchOnWindowFocus: false});
 
   useEffect(() => {
     if (!router.isReady) return;

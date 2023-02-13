@@ -1,18 +1,18 @@
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
-import type { Dispatch, MutableRefObject, SetStateAction} from "react";
+import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { useState } from "react";
 import { useRef } from "react";
-import type { Sprite} from "three";
+import type { Sprite } from "three";
 import { Vector3 } from "three";
 import type { Controls } from "./types";
 import { rtmChannel } from "./GameContainer";
-import { useAnimatedSprite } from 'use-animated-sprite';
-import { spriteConfigs } from "./utils";
+import { useAnimatedSprite } from "use-animated-sprite";
+import { spriteConfigTimmy as spriteConfigs } from "./utils";
 
-const charSize = 1.2;
+const charSize = spriteConfigs.charSize;
 const _velocity = new Vector3();
-const speed = 1;
+const speed = spriteConfigs.speed;
 
 export const sendPositionRTM = (position: Vector3) => {
   void rtmChannel
@@ -24,8 +24,11 @@ export const Player = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
 }) => {
   const ref = useRef<Sprite>(null);
-  const [spriteState, setSpriteState] = useState(spriteConfigs.left)
-  const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, spriteState)
+  const [spriteState, setSpriteState] = useState(spriteConfigs.left);
+  const texture = useAnimatedSprite(
+    ref as MutableRefObject<Sprite>,
+    spriteState
+  );
   const counter = useRef(0);
   const { setPlayerPos } = props;
   const [, get] = useKeyboardControls<Controls>();
@@ -34,27 +37,27 @@ export const Player = (props: {
     const state = get();
     if (state.left && !state.right) {
       _velocity.x = -1;
-      setSpriteState(spriteConfigs.left)
+      setSpriteState(spriteConfigs.left);
     }
     if (state.right && !state.left) {
       _velocity.x = 1;
-      setSpriteState(spriteConfigs.right)
+      setSpriteState(spriteConfigs.right);
     }
     if (!state.left && !state.right) {
       _velocity.x = -0;
-      setSpriteState(spriteConfigs.stand)
+      setSpriteState(spriteConfigs.stand);
     }
-    
-    if (state.forward && !state.back){
+
+    if (state.forward && !state.back) {
       _velocity.y = 1;
-      setSpriteState(spriteConfigs.up)
+      setSpriteState(spriteConfigs.up);
     }
-    if (state.back && !state.forward){
+    if (state.back && !state.forward) {
       _velocity.y = -1;
-      setSpriteState(spriteConfigs.down)
+      setSpriteState(spriteConfigs.down);
     }
     if (!state.forward && !state.back) _velocity.y = 0;
-    
+
     if (state.jump) ref.current.position.set(0, 0, 0);
     ref.current.position.addScaledVector(_velocity, speed * dl);
     setPlayerPos(ref.current.position);
@@ -65,7 +68,7 @@ export const Player = (props: {
       counter.current = Math.round(time * factor) / factor;
     }
   });
-  
+
   return (
     <sprite ref={ref} scale={charSize}>
       <spriteMaterial map={texture} />
