@@ -15,7 +15,7 @@ const Home: NextPage = () => {
     return (
       <>
         <Head>
-          <title>Hi React India</title>
+          <title>Agora Virtual Space</title>
         </Head>
         <div
           className={styles.containerOuter}
@@ -41,11 +41,11 @@ const Home: NextPage = () => {
         <h1 className={styles.title}></h1>
         <h3>Hi {data?.user.name}</h3>
         <div style={{ flexDirection: "column" }}>
-          <Link href={"/create"}>
-            <button className={styles.button}>Create</button>
-          </Link>
           <Link href={"/view"}>
             <button className={styles.button}>View Rooms</button>
+          </Link>
+          <Link href={"/create"}>
+            <button className={styles.button}>Create</button>
           </Link>
         </div>
 
