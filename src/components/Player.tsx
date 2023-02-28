@@ -58,11 +58,12 @@ export const Player = (props: {
 
     if (state.jump) ref.current.position.set(0, 0, 0);
     ref.current.position.addScaledVector(_velocity, character.speed * dl);
+    ref.current.position.z = 1
     setPlayerPos(ref.current.position);
     const time = s.clock.getElapsedTime();
     const factor = 10;
     if (Math.round(time * factor) / factor > counter.current) {
-      sendPositionRTM(ref.current?.position);
+      sendPositionRTM(ref.current.position);
       counter.current = Math.round(time * factor) / factor;
     }
   });

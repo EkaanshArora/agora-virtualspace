@@ -156,7 +156,7 @@ export const getRandomPet = () => {
     spriteSheetUrl: `/pet${t}.png`,
     xCount: 4,
     yCount: 5,
-    interval: 0.3,
+    interval: 0.25,
     spriteX: 0,
     spriteFrames: 4,
   };
