@@ -3,12 +3,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/index.module.css";
+import Card from "../ui/Card";
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
 
   if (status === "loading") {
-    return <p>loading...</p>;
+    <Card text="loading..." />
   }
 
   if (status === "unauthenticated") {
@@ -17,10 +18,7 @@ const Home: NextPage = () => {
         <Head>
           <title>Agora Virtual Space</title>
         </Head>
-        <div
-          className={styles.containerOuter}
-          style={{ flexDirection: "column" }}
-        >
+        <div className={styles.containerOuter}>
           <h1 className={styles.title}>Login</h1>
           <div>
             <button onClick={() => void signIn()} className={styles.button}>
@@ -40,7 +38,7 @@ const Home: NextPage = () => {
       >
         <h1 className={styles.title}></h1>
         <h3>Hi {data?.user.name}</h3>
-        <div style={{ flexDirection: "column" }}>
+        <div className="flex-col">
           <Link href={"/view"}>
             <button className={styles.button}>View Rooms</button>
           </Link>

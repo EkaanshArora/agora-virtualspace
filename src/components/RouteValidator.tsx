@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
+import Card from "../ui/Card";
 
 type Props = {
   children: React.ReactElement;
 };
 
 const Loading = () => (
-  <div>loading...</div>
+    <Card text="loading..." />
 );
 
 const RouteValidatorAuth: React.FC<Props> = ({ children }) => {
@@ -19,11 +20,11 @@ const RouteValidatorAuth: React.FC<Props> = ({ children }) => {
   }
 
   if (status === "unauthenticated" && !authRoutes.includes(router.pathname)) {
-    void signIn()
-    return <></>
+    void signIn();
+    return <></>;
   }
 
-  return children
+  return children;
 };
 
 export default RouteValidatorAuth;

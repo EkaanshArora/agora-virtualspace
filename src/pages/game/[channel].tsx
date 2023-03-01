@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { characters } from "../../components/utils";
+import Card from "../../ui/Card";
 import { api } from "../../utils/api";
 
 const Game = dynamic(() => import("../../components/GameContainer"), {
@@ -26,10 +27,10 @@ const Call = () => {
     setReady(true);
   }, [router.isReady]);
 
-  if (session.status === "loading") return <p>loading..</p>;
+  if (session.status === "loading") return <Card text="loading..." />;
   if (session.status === "unauthenticated") void router.replace("/");
-  if (q.isLoading) return <p>joining...</p>;
-  if (q.isError) return <p>error</p>;
+  if (q.isLoading) return <Card text="loading..." />;
+  if (q.isError) return <Card text="error" />;
 
   return ready ? (
     <>
@@ -37,12 +38,12 @@ const Call = () => {
       {q.data.agoraId ? (
         <>
           <button
+            className="absolute z-10"
             onClick={() => {
               void router.push("/").then(() => {
                 router.reload();
               });
             }}
-            style={{ position: "absolute", zIndex: 2 }}
           >
             back
           </button>
