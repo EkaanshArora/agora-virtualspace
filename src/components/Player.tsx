@@ -33,38 +33,82 @@ export const Player = (props: {
   useFrame((s, dl) => {
     if (!ref.current) return;
     const state = get();
-    if (state.left && !state.right) {
-      _velocity.x = -1;
-      setSpriteState(character.left);
-    }
-    if (state.right && !state.left) {
-      _velocity.x = 1;
-      setSpriteState(character.right);
-    }
-    if (!state.left && !state.right) {
-      _velocity.x = -0;
-      setSpriteState(character.stand);
-    }
+    if (true) {
+      // mouse
+      if (state.jump) ref.current.position.set(0, 0, 0);  
+      const playerPos = ref.current.position
+      const xDist = Math.sign(Math.floor(10 * ((s.mouse.x * 4) - playerPos.x)))
+      const yDist = Math.sign(Math.floor(10 * ((s.mouse.y * 4) - playerPos.y)))
+      console.log(playerPos.x, s.mouse.x)
+      if (xDist < 0) {
+        _velocity.x = -1;
+        setSpriteState(character.left);
+      }
+      if (xDist > 0) {
+        _velocity.x = 1;
+        setSpriteState(character.right);
+      }
+      if (xDist === 0) {
+        _velocity.x = -0;
+        setSpriteState(character.stand);
+      }
 
-    if (state.forward && !state.back) {
-      _velocity.y = 1;
-      setSpriteState(character.up);
-    }
-    if (state.back && !state.forward) {
-      _velocity.y = -1;
-      setSpriteState(character.down);
-    }
-    if (!state.forward && !state.back) _velocity.y = 0;
+      if (yDist > 0) {
+        _velocity.y = 1;
+        setSpriteState(character.up);
+      }
+      if (yDist < 0) {
+        _velocity.y = -1;
+        setSpriteState(character.down);
+      }
+      if (yDist === 0) {
+        _velocity.y = -0;
+        // setSpriteState(character.stand);
+      }
+      ref.current.position.addScaledVector(_velocity, character.speed * dl);
+      ref.current.position.z = 1
+      setPlayerPos(ref.current.position);
+      const time = s.clock.getElapsedTime();
+      const factor = 10;
+      if (Math.round(time * factor) / factor > counter.current) {
+        sendPositionRTM(ref.current.position);
+        counter.current = Math.round(time * factor) / factor;
+      }
+    } else {
+      // keyboard
+      // if (state.left && !state.right) {
+      //   _velocity.x = -1;
+      //   setSpriteState(character.left);
+      // }
+      // if (state.right && !state.left) {
+      //   _velocity.x = 1;
+      //   setSpriteState(character.right);
+      // }
+      // if (!state.left && !state.right) {
+      //   _velocity.x = -0;
+      //   setSpriteState(character.stand);
+      // }
 
-    if (state.jump) ref.current.position.set(0, 0, 0);
-    ref.current.position.addScaledVector(_velocity, character.speed * dl);
-    ref.current.position.z = 1
-    setPlayerPos(ref.current.position);
-    const time = s.clock.getElapsedTime();
-    const factor = 10;
-    if (Math.round(time * factor) / factor > counter.current) {
-      sendPositionRTM(ref.current.position);
-      counter.current = Math.round(time * factor) / factor;
+      // if (state.forward && !state.back) {
+      //   _velocity.y = 1;
+      //   setSpriteState(character.up);
+      // }
+      // if (state.back && !state.forward) {
+      //   _velocity.y = -1;
+      //   setSpriteState(character.down);
+      // }
+      // if (!state.forward && !state.back) _velocity.y = 0;
+
+      // if (state.jump) ref.current.position.set(0, 0, 0);
+      // ref.current.position.addScaledVector(_velocity, character.speed * dl);
+      // ref.current.position.z = 1
+      // setPlayerPos(ref.current.position);
+      // const time = s.clock.getElapsedTime();
+      // const factor = 10;
+      // if (Math.round(time * factor) / factor > counter.current) {
+      //   sendPositionRTM(ref.current.position);
+      //   counter.current = Math.round(time * factor) / factor;
+      // }
     }
   });
 
