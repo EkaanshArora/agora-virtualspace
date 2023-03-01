@@ -1,6 +1,38 @@
 import type { Dispatch, SetStateAction } from "react";
-import { Vector3 } from "three";
+import { Color, ShaderMaterial, Vector3 } from "three";
 import type { customSpriteConfig } from "./types";
+
+export const remoteSpriteCircleShader = new ShaderMaterial({
+  transparent: true,
+  uniforms: {
+    vlak3color1: { value: new Color("#ff00ff") },
+  },
+  vertexShader: `
+    varying vec3 vUv; 
+
+    void main() {
+      vUv = position; 
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position.x, position.y, 0.1, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform vec3 vlak3color1;
+    uniform vec3 origin;
+
+    varying vec3 vUv;
+   
+    void main() {
+      float distance = clamp(length(vUv), 0., 1.0);
+
+      // y < 0 = transparent, > 1 = opaque
+      float alpha = smoothstep(1.0, 0.0, distance) / 3.0;
+      // y < 1 = color1, > 2 = color2
+      float colorMix = smoothstep(1.0, 2.0, vUv.y);
+  
+      gl_FragColor = vec4(vlak3color1, alpha);
+    }
+  `,
+});
 
 export const handleSprite = (
   _ss: Dispatch<

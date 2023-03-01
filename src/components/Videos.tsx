@@ -18,7 +18,6 @@ export const Videos = (props: {
       <Buttons localVideoTrack={localVideoTrack} localAudioTrack={localAudioTrack} />
       {Object.keys(remoteUsers).map((u) => (
         <>
-          <div>{AgoraDict[parseInt(u)]?.agoraUser?.uid}</div>
           {AgoraDict[parseInt(u)]?.agoraUser.videoTrack ? (
             <div
               key={u}
@@ -45,9 +44,11 @@ export const Videos = (props: {
           )}
         </>
       ))}
-      {localVideoTrack && (
+      {!localVideoTrack.muted ? 
         <AgoraVideoPlayer style={styles.videoTile} videoTrack={localVideoTrack} />
-      )}
+      : <div style={styles.videoTileMuted}>
+      selfmutedvideo
+    </div>}
     </div>
   );
 };

@@ -3,44 +3,12 @@ import { Circle } from "@react-three/drei";
 import type { MutableRefObject } from "react";
 import { useRef, useState } from "react";
 import type { Sprite } from "three";
-import { Vector3, ShaderMaterial, Color } from "three";
+import { Vector3 } from "three";
 import { AgoraDict, rtcClient } from "./GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { handleSprite, getRandomPet } from "./utils";
+import { handleSprite, getRandomPet, remoteSpriteCircleShader } from "./utils";
 
 const distanceToUnsubscribe = 1.5;
-
-const custom3Material = new ShaderMaterial({
-  transparent: true,
-  uniforms: {
-    vlak3color1: { value: new Color("#ff00ff") },
-  },
-  vertexShader: `
-    varying vec3 vUv; 
-
-    void main() {
-      vUv = position; 
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position.x, position.y, 0.1, 1.0);
-    }
-  `,
-  fragmentShader: `
-    uniform vec3 vlak3color1;
-    uniform vec3 origin;
-
-    varying vec3 vUv;
-   
-    void main() {
-      float distance = clamp(length(vUv), 0., 1.0);
-
-      // y < 0 = transparent, > 1 = opaque
-      float alpha = smoothstep(1.0, 0.0, distance) / 3.5;
-      // y < 1 = color1, > 2 = color2
-      float colorMix = smoothstep(1.0, 2.0, vUv.y);
-  
-      gl_FragColor = vec4(vlak3color1, alpha);
-    }
-  `,
-});
 
 export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid: number }) => {
   const spriteRef = useRef<Sprite>(null);
@@ -110,7 +78,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
         scale={distanceToUnsubscribe * 1.2}
         ref={circleRef}
         position={new Vector3(0, -0.2, 0.1)}
-        material={custom3Material}
+        material={remoteSpriteCircleShader}
       />
       <sprite ref={spriteRef} scale={spriteConfigPet.charSize}>
         <spriteMaterial map={texture} />
