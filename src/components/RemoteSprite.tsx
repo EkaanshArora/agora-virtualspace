@@ -20,16 +20,13 @@ const custom3Material = new ShaderMaterial({
 
     void main() {
       vUv = position; 
-
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position.x, position.y, 0.1, 1.0);
     }
   `,
   fragmentShader: `
-     
-   uniform vec3 vlak3color1;
+    uniform vec3 vlak3color1;
     uniform vec3 origin;
 
- 
     varying vec3 vUv;
    
     void main() {
@@ -41,15 +38,11 @@ const custom3Material = new ShaderMaterial({
       float colorMix = smoothstep(1.0, 2.0, vUv.y);
   
       gl_FragColor = vec4(vlak3color1, alpha);
-  }
-`,
+    }
+  `,
 });
 
-export const RemoteSprite = (props: {
-  position: Vector3;
-  playerPos: Vector3;
-  uid: number;
-}) => {
+export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid: number }) => {
   const spriteRef = useRef<Sprite>(null);
   const circleRef = useRef<Sprite>(null); // type hack
   const randomPetRef = useRef(getRandomPet());
@@ -68,26 +61,42 @@ export const RemoteSprite = (props: {
 
       // subscription logic
       if (agoraUser) {
+        console.log("try");
         if (
           remotePos.distanceTo(playerPos) > distanceToUnsubscribe &&
-          agoraUser.isSubscribed
+          agoraUser.isSubscribedAudio
         ) {
           void rtcClient
-            .unsubscribe(agoraUser.agoraUser)
-            .then(() => (agoraUser.isSubscribed = false))
+            .unsubscribe(agoraUser.agoraUser, "audio")
+            .then(() => (agoraUser.isSubscribedAudio = false))
+            .catch((e) => console.log(e));
+        }
+        if (
+          remotePos.distanceTo(playerPos) > distanceToUnsubscribe &&
+          agoraUser.isSubscribedVideo
+        ) {
+          void rtcClient
+            .unsubscribe(agoraUser.agoraUser, "video")
+            .then(() => (agoraUser.isSubscribedVideo = false))
             .catch((e) => console.log(e));
         }
         if (
           remotePos.distanceTo(playerPos) < distanceToUnsubscribe &&
-          !agoraUser.isSubscribed
+          !agoraUser.isSubscribedAudio
         ) {
           void rtcClient
             .subscribe(agoraUser.agoraUser, "audio")
             .then((t) => t.play())
-            .then(() => (agoraUser.isSubscribed = true))
+            .then(() => (agoraUser.isSubscribedAudio = true))
             .catch((e) => console.log(e));
+        }
+        if (
+          remotePos.distanceTo(playerPos) < distanceToUnsubscribe &&
+          !agoraUser.isSubscribedVideo
+        ) {
           void rtcClient
             .subscribe(agoraUser.agoraUser, "video")
+            .then(() => (agoraUser.isSubscribedVideo = true))
             .catch((e) => console.log(e));
         }
       } else {
@@ -101,14 +110,7 @@ export const RemoteSprite = (props: {
         scale={distanceToUnsubscribe * 1.2}
         ref={circleRef}
         position={new Vector3(0, -0.2, 0.1)}
-        material={
-          custom3Material
-          // new MeshBasicMaterial({
-          //   color: "#f0f",
-          //   opacity: 0.1,
-          //   transparent: true,
-          // })
-        }
+        material={custom3Material}
       />
       <sprite ref={spriteRef} scale={spriteConfigPet.charSize}>
         <spriteMaterial map={texture} />

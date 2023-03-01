@@ -3,7 +3,8 @@ import type { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 
 export type agoraUserType = {
   agoraUser: IAgoraRTCRemoteUser;
-  isSubscribed: boolean;
+  isSubscribedVideo: boolean;
+  isSubscribedAudio: boolean;
 };
 
 export type userPosition = {

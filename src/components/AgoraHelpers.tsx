@@ -1,37 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Vector3 } from "three";
 import type { RtmMessage, RtmTextMessage } from "agora-rtm-sdk";
-import type { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 import type { remoteUserType } from "./types";
-import { AgoraDict } from "./GameContainer";
-
-export const handleRtcPublish = (
-  user: IAgoraRTCRemoteUser,
-  mediaType: "audio" | "video"
-) => {
-  console.log("userjoined", user.uid);
-  if (mediaType === "audio") {
-    AgoraDict[user.uid as number] = {
-      agoraUser: user,
-      isSubscribed: false,
-    };
-  }
-};
-export const handleRtcUnpublish = (
-  user: IAgoraRTCRemoteUser,
-  mediaType: "audio" | "video",
-  setRemoteUsers: Dispatch<SetStateAction<remoteUserType>>
-) => {
-  if (mediaType === "audio") {
-    user.audioTrack?.stop();
-    delete AgoraDict[user.uid as number];
-    setRemoteUsers((ps) => {
-      const copy = { ...ps };
-      delete copy[user.uid as number];
-      return copy;
-    });
-  }
-};
 
 export const handleChannelMessage = (
   message: RtmMessage,
