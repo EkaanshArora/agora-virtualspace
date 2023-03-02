@@ -7,8 +7,8 @@ import type { Vector3 } from "three";
 import { Stage } from "./Stage";
 import { Player } from "./Player";
 import { RemoteSprite } from "./RemoteSprite";
-import type { customSpriteConfig, remoteUserType, userPosition } from "./types";
-import { Controls } from "./types";
+import type { customSpriteConfig, remoteUserType, userPosition } from "../types";
+import { Controls } from "../types";
 
 export const Game = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;

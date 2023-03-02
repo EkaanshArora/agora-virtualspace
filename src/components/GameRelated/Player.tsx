@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useRef } from "react";
 import type { Sprite } from "three";
 import { Vector3 } from "three";
-import type { Controls, customSpriteConfig } from "./types";
-import { rtmChannel } from "./GameContainer";
+import type { Controls, customSpriteConfig } from "../types";
+import { rtmChannel } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
 
 const _velocity = new Vector3();

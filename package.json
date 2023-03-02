@@ -27,6 +27,7 @@
     "next-auth": "^4.19.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
     "superjson": "1.9.1",
     "three": "^0.149.0",
     "use-animated-sprite": "^1.0.2",

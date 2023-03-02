@@ -3,12 +3,11 @@ import { Vector3 } from "three";
 import AgoraRTM from "agora-rtm-sdk";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { Game } from "./Game";
-import { handleChannelMessage } from "./AgoraHelpers";
+import { Game } from "./GameRelated/Game";
+import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
 import { env } from "../env/client.mjs";
 import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
-import { styles } from "./styles";
-import { Videos } from "./Videos";
+import { Videos } from "./VideoOverlay/Videos";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
@@ -115,7 +114,7 @@ function App(props: {
   }
 
   return (
-    <div style={styles.parent}>
+    <div className="w-screen h-screen">
       {ready && tracks ? (
         <>
           <Videos

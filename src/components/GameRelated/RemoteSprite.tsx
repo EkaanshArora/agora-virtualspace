@@ -4,9 +4,9 @@ import type { MutableRefObject } from "react";
 import { useRef, useState } from "react";
 import type { Sprite } from "three";
 import { Vector3 } from "three";
-import { AgoraDict, rtcClient } from "./GameContainer";
+import { AgoraDict, rtcClient } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { handleSprite, getRandomPet, remoteSpriteCircleShader } from "./utils";
+import { handleSprite, getRandomPet, remoteSpriteCircleShader } from "../utils";
 
 const distanceToUnsubscribe = 1.5;
 
@@ -26,7 +26,6 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
       circleRef.current?.position.set(position.x, position.y, position.z - 0.2);
       // spritesheet logic
       handleSprite(setSprite, position, remotePos, spriteConfigPet);
-
       // subscription logic
       if (agoraUser) {
         console.log("try");
