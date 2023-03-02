@@ -18,7 +18,7 @@ export function Buttons(props: {
     void localAudioTrack.setMuted(!localAudioTrack.muted).then(() => ss1(localAudioTrack.muted));
   };
   return (
-    <div className="absolute bottom-0 right-4 z-20 bg-white bg-opacity-80 pl-5">
+    <div className="absolute bottom-0 right-4 z-20 bg-white bg-opacity-80 p-5">
       <button
         onClick={() => {
           void AgoraRTC.getCameras().then((d) => {
@@ -29,11 +29,11 @@ export function Buttons(props: {
         cam
       </button>
       <br />
-      <button className="h-10 w-10" onClick={() => localVideoTrackMute()}>
+      <button className="h-10" onClick={() => localVideoTrackMute()}>
         {localVideoMuteState ? <FiCameraOff size={25} /> : <FiCamera size={25} />}
       </button>
       <br />
-      <button className="h-10 w-10" onClick={() => localAudioTrackMute()}>
+      <button className="h-10" onClick={() => localAudioTrackMute()}>
         {s1 ? <FiMicOff size={25} /> : <FiMic size={25} />}
       </button>
     </div>
