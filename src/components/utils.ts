@@ -35,7 +35,7 @@ export const remoteSpriteCircleShader = new ShaderMaterial({
 });
 
 export const handleSprite = (
-  _ss: Dispatch<
+  setSprite: Dispatch<
     SetStateAction<{
       spriteSheetUrl: string;
       xCount: number;
@@ -54,24 +54,20 @@ export const handleSprite = (
     Math.abs(position.x - remotePos.x) < 1e-4 &&
     Math.abs(position.y - remotePos.y) < 1e-4
   ) {
-    _ss(spriteConfig.stand);
+    setSprite(spriteConfig.stand);
   } else if (
     Math.abs(position.x - remotePos.x) > Math.abs(position.y - remotePos.y)
   ) {
     if (position.x > remotePos.x) {
-      _ss(spriteConfig.right);
-      console.log("right");
+      setSprite(spriteConfig.right);
     } else if (position.x < remotePos.x) {
-      console.log("left");
-      _ss(spriteConfig.left);
+      setSprite(spriteConfig.left);
     }
   } else {
     if (position.y > remotePos.y) {
-      console.log("up");
-      _ss(spriteConfig.up);
+      setSprite(spriteConfig.up);
     } else if (position.y < remotePos.y) {
-      console.log("down");
-      _ss(spriteConfig.down);
+      setSprite(spriteConfig.down);
     }
   }
 };

@@ -1,12 +1,12 @@
 import { useFrame } from "@react-three/fiber";
 import { Circle } from "@react-three/drei";
-import type { MutableRefObject } from "react";
 import { useRef, useState } from "react";
-import type { Sprite } from "three";
 import { Vector3 } from "three";
 import { AgoraDict, rtcClient } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
 import { handleSprite, getRandomPet, remoteSpriteCircleShader } from "../utils";
+import type { MutableRefObject } from "react";
+import type { Sprite } from "three";
 
 const distanceToUnsubscribe = 1.5;
 
@@ -18,6 +18,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
   const [sprite, setSprite] = useState(spriteConfigPet.stand);
   const texture = useAnimatedSprite(spriteRef as MutableRefObject<Sprite>, sprite);
   const { position, playerPos, uid } = props;
+
   useFrame(() => {
     const remotePos = spriteRef.current?.position;
     const agoraUser = AgoraDict[uid];
@@ -36,7 +37,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
           void rtcClient
             .unsubscribe(agoraUser.agoraUser, "audio")
             .then(() => (agoraUser.isSubscribedAudio = false))
-            .catch((e) => console.log(e));
+            .catch(console.log);
         }
         if (
           remotePos.distanceTo(playerPos) > distanceToUnsubscribe &&
@@ -45,7 +46,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
           void rtcClient
             .unsubscribe(agoraUser.agoraUser, "video")
             .then(() => (agoraUser.isSubscribedVideo = false))
-            .catch((e) => console.log(e));
+            .catch(console.log);
         }
         if (
           remotePos.distanceTo(playerPos) < distanceToUnsubscribe &&
@@ -55,7 +56,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
             .subscribe(agoraUser.agoraUser, "audio")
             .then((t) => t.play())
             .then(() => (agoraUser.isSubscribedAudio = true))
-            .catch((e) => console.log(e));
+            .catch(console.log);
         }
         if (
           remotePos.distanceTo(playerPos) < distanceToUnsubscribe &&
@@ -64,13 +65,14 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
           void rtcClient
             .subscribe(agoraUser.agoraUser, "video")
             .then(() => (agoraUser.isSubscribedVideo = true))
-            .catch((e) => console.log(e));
+            .catch(console.log);
         }
       } else {
         console.warn("no user", agoraUser, AgoraDict);
       }
     }
   });
+
   return (
     <>
       <Circle

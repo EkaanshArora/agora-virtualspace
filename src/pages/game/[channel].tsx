@@ -14,12 +14,10 @@ const Call = () => {
   const router = useRouter();
   const session = useSession();
   const [ready, setReady] = useState(false);
-  const q = api.example.getToken.useQuery(
+  const roomDetails = api.example.getRoom.useQuery({roomId: router.query.channel as string })
+  const tokenDetails = api.example.getToken.useQuery(
     { channel: router.query.channel as string },
-    {
-      refetchOnWindowFocus: false,
-      enabled: router.query.channel !== undefined,
-    }
+    { enabled: router.query.channel !== undefined }
   );
 
   useEffect(() => {
@@ -29,13 +27,14 @@ const Call = () => {
 
   if (session.status === "loading") return <Card text="loading..." />;
   if (session.status === "unauthenticated") void router.replace("/");
-  if (q.isLoading) return <Card text="loading..." />;
-  if (q.isError) return <Card text="error" />;
+  if (tokenDetails.isLoading || roomDetails.isLoading) return <Card text="loading..." />;
+  if (tokenDetails.isError || roomDetails.isError) return <Card text="error" />;
+  console.log('!',roomDetails.data?.stageName)
 
   return ready ? (
     <>
       {/* <h1 className="text-2xl font-bold">{router.query.name}</h1> */}
-      {q.data.agoraId ? (
+      {tokenDetails.data && roomDetails.data ? (
         <>
           <button
             className="absolute z-10"
@@ -49,9 +48,10 @@ const Call = () => {
           </button>
           <Game
             channel={router.query.channel as string}
-            agoraId={q.data.agoraId}
-            rtmToken={q.data.rtm}
-            rtcToken={q.data.rtc}
+            agoraId={tokenDetails.data.agoraId}
+            rtmToken={tokenDetails.data.rtm}
+            rtcToken={tokenDetails.data.rtc}
+            stageName={roomDetails.data.stageName}
             character={
               router.query.character === "birb"
                 ? characters.pet

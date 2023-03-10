@@ -27,11 +27,12 @@ function App(props: {
   rtmToken: string;
   channel: string;
   character: customSpriteConfig;
+  stageName: string;
 }) {
   const { ready, tracks, error } = useTracks();
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
   const [playerPos, setPlayerPos] = useState(new Vector3());
-  const { agoraId, rtcToken, rtmToken, channel, character } = props;
+  const { agoraId, rtcToken, rtmToken, channel, character, stageName } = props;
   useEffect(() => {
     async function init() {
       // RTC
@@ -128,6 +129,7 @@ function App(props: {
             remoteUsers={remoteUsers}
             playerPos={playerPos}
             character={character}
+            stageName={stageName}
           />
         </>
       ) : (

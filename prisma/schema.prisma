@@ -62,8 +62,9 @@ model User {
 model Room {
   roomId      String  @id @default(cuid())
   name        String
-  description String?
   userId      String
+  description String?
+  stageName   String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])

@@ -6,7 +6,8 @@ import { TRPCError } from "@trpc/server";
 
 const roomSchema = z.object({
   name: z.string().min(3).max(30),
-  description: z.string().max(100).nullish(),
+  description: z.string().max(150).nullish(),
+  stageName: z.string(),
 });
 
 export const exampleRouter = createTRPCRouter({
@@ -21,20 +22,29 @@ export const exampleRouter = createTRPCRouter({
         name: input.name,
         description: input.description,
         userId: ctx.session.user.id,
+        stageName: input.stageName,
       },
     });
   }),
   getAllRooms: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.room.findMany();
   }),
+  getRoom: protectedProcedure
+    .input(z.object({ roomId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.room.findFirst({
+        where: {
+          roomId: input.roomId,
+        },
+      });
+    }),
   getToken: protectedProcedure
     .input(z.object({ channel: z.string() }))
     .query(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findFirst({
         where: { id: ctx.session.user.id },
       });
-      if (!user) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      // const id = Math.floor(user.time.getTime() % 1000000);
+      if (!user) throw new TRPCError({ code: "FORBIDDEN" });
       const id = user.numericId;
       const rtc = RtcTokenBuilder.buildTokenWithUid(
         env.NEXT_PUBLIC_APP_ID,
