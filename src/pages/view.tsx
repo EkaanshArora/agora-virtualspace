@@ -29,7 +29,7 @@ const ViewRooms = () => {
                   {room.description}
                 </p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="h-64 w-96 m-auto pb-2 object-cover" src={`/${(room.stageName ?? 'stage') as string}.webp`} alt="stage" />
+                <img className="h-64 w-96 m-auto pb-2 object-cover" src={`/${room.stageName ?? 'stage'}.webp`} alt="stage" />
               </button>
             </div>
           ))}
