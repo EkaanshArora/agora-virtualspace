@@ -21,19 +21,17 @@ const Create = () => {
               onSuccess: () => {
                 setDescription("");
                 setRoom("");
+                // setStageName("stage")
               },
             }
           );
         }}
       >
-        <h1 className="mb-8 pt-8 text-3xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
+        <h1 className="mb-8 pt-8 text-3xl font-extrabold leading-none tracking-tight text-gray-900 ">
           Create Room
         </h1>
         <div>
-          <label
-            htmlFor="room_name"
-            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label htmlFor="room_name" className="mb-2 block text-sm font-medium text-gray-900 ">
             Room name
           </label>
           <input
@@ -42,16 +40,13 @@ const Create = () => {
             placeholder="Name"
             type="text"
             id="room_name"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
             required
           />
         </div>
         <br />
         <div>
-          <label
-            htmlFor="desc"
-            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label htmlFor="desc" className="mb-2 block text-sm font-medium text-gray-900 ">
             Description
           </label>
           <input
@@ -60,25 +55,24 @@ const Create = () => {
             placeholder="Description"
             type="text"
             id="desc"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
             required
           />
         </div>
         <div>
-          <label
-            htmlFor="stage"
-            className="m-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label htmlFor="stage" className="m-2 block text-sm font-medium text-gray-900 ">
             Select a map
           </label>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="h-64 m-auto pb-2" src={`/${stageName}.webp`} alt="stage" />
+          <img className="m-auto h-64 pb-2" src={`/${stageName}.webp`} alt="stage" />
           <select
             id="stage"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            onChange={(e)=>setStageName(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+            onChange={(e) => setStageName(e.target.value)}
           >
-            <option value="stage" selected>Village</option>
+            <option value="stage" selected>
+              Village
+            </option>
             <option value="stage1">Farm</option>
             <option value="stage2">Forest</option>
             <option value="stage3">Water</option>
