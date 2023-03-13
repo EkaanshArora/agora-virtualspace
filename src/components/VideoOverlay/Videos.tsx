@@ -1,6 +1,6 @@
 import type { Vector3 } from "three";
-import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng";
-import { AgoraVideoPlayer } from "agora-rtc-react";
+import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../agora-rtc-react";
+import { AgoraVideoPlayer } from "../../agora-rtc-react";
 import type { remoteUserType } from "../types";
 import { Buttons } from "./Buttons";
 import { RemoteVideo } from "./RemoteVideo";

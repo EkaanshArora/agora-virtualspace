@@ -1,6 +1,6 @@
 import type { Vector3 } from "three";
-import { type IRemoteVideoTrack } from "agora-rtc-sdk-ng";
-import { AgoraVideoPlayer } from "agora-rtc-react";
+import { type IRemoteVideoTrack } from "../../agora-rtc-react";
+import { AgoraVideoPlayer } from "../../agora-rtc-react";
 import type { remoteUserType } from "../types";
 import { AgoraDict } from "../GameContainer";
 import { api } from "../../utils/api";

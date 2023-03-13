@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Vector3 } from "three";
 import AgoraRTM from "agora-rtm-sdk";
-import AgoraRTC from "agora-rtc-sdk-ng";
-import { createMicrophoneAndCameraTracks } from "agora-rtc-react";
+// import  from "agora-rtc-sdk-ng";
+import AgoraRTC, { AgoraProvider, useMicrophoneAndCameraTracks } from "../agora-rtc-react";
 import { Game } from "./GameRelated/Game";
 import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
 import { env } from "../env/client.mjs";
@@ -11,7 +11,7 @@ import { Videos } from "./VideoOverlay/Videos";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
-const useTracks = createMicrophoneAndCameraTracks();
+// const useTracks = createMicrophoneAndCameraTracks();
 export let AgoraDict: { [uid: number]: agoraUserType } = {};
 export const rtmClient = AgoraRTM.createInstance(appId, {
   logFilter: AgoraRTM.LOG_FILTER_WARNING,
@@ -29,7 +29,7 @@ function App(props: {
   character: customSpriteConfig;
   stageName: string;
 }) {
-  const { ready, tracks, error } = useTracks();
+  const { isSuccess: ready, data: tracks, error } = useMicrophoneAndCameraTracks("usetrack");
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
   const [playerPos, setPlayerPos] = useState(new Vector3());
   const { agoraId, rtcToken, rtmToken, channel, character, stageName } = props;
@@ -100,7 +100,7 @@ function App(props: {
         <br />
         <br />
         <br />
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">{error.message}</div>
+        <div className="max-w-sm overflow-hidden rounded shadow-lg">{error.message}</div>
         <br />
         <br />
         <button
@@ -115,7 +115,7 @@ function App(props: {
   }
 
   return (
-    <div className="w-screen h-screen">
+    <div className="h-screen w-screen">
       {ready && tracks ? (
         <>
           <Videos
@@ -133,10 +133,33 @@ function App(props: {
           />
         </>
       ) : (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">Starting camera...</div>
+        <div className="max-w-sm overflow-hidden rounded shadow-lg">Starting camera...</div>
       )}
     </div>
   );
 }
 
-export default App;
+const GameWrapper = (props: {
+  agoraId: number;
+  rtcToken: string;
+  rtmToken: string;
+  channel: string;
+  character: customSpriteConfig;
+  stageName: string;
+}) => {
+  const {agoraId,channel,character,rtcToken,rtmToken,stageName} = props;
+return (
+    <AgoraProvider>
+      <App
+      agoraId={agoraId}
+      channel={channel}
+      character={character}
+      rtcToken={rtcToken}
+      rtmToken={rtmToken}
+      stageName={stageName}
+      />
+    </AgoraProvider>
+  );
+};
+
+export default GameWrapper;

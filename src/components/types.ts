@@ -1,5 +1,5 @@
 import type { Vector3 } from "three";
-import type { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
+import type { IAgoraRTCRemoteUser } from "../agora-rtc-react";
 
 export type agoraUserType = {
   agoraUser: IAgoraRTCRemoteUser;

@@ -1,5 +1,5 @@
-import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng";
-import AgoraRTC from "agora-rtc-sdk-ng";
+import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../agora-rtc-react";
+import AgoraRTC from "../../agora-rtc-react";
 import { useState } from "react";
 import { FiCamera, FiCameraOff, FiMic, FiMicOff } from "react-icons/fi";
 const cams = await AgoraRTC.getCameras();
