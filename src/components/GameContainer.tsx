@@ -8,6 +8,7 @@ import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
 import { env } from "../env/client.mjs";
 import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
 import { Videos } from "./VideoOverlay/Videos";
+import { Buttons } from "./VideoOverlay/Buttons";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
@@ -29,6 +30,7 @@ function App(props: {
   character: customSpriteConfig;
   stageName: string;
 }) {
+  const [localVideoMuteState, setLocalVideoMuteState] = useState(false);
   const { isSuccess: ready, data: tracks, error } = useMicrophoneAndCameraTracks("usetrack");
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
   const [playerPos, setPlayerPos] = useState(new Vector3());
@@ -121,7 +123,14 @@ function App(props: {
           <Videos
             playerPos={playerPos}
             localAudioTrack={tracks[0]}
+            localVideoTrack={tracks[1]}
             remoteUsers={remoteUsers}
+            localVideoMuteState={localVideoMuteState}
+          />
+          <Buttons
+            localVideoMuteState={localVideoMuteState}
+            setLocalVideoMuteState={setLocalVideoMuteState}
+            localAudioTrack={tracks[0]}
             localVideoTrack={tracks[1]}
           />
           <Game
@@ -147,16 +156,16 @@ const GameWrapper = (props: {
   character: customSpriteConfig;
   stageName: string;
 }) => {
-  const {agoraId,channel,character,rtcToken,rtmToken,stageName} = props;
-return (
+  const { agoraId, channel, character, rtcToken, rtmToken, stageName } = props;
+  return (
     <AgoraProvider>
       <App
-      agoraId={agoraId}
-      channel={channel}
-      character={character}
-      rtcToken={rtcToken}
-      rtmToken={rtmToken}
-      stageName={stageName}
+        agoraId={agoraId}
+        channel={channel}
+        character={character}
+        rtcToken={rtcToken}
+        rtmToken={rtmToken}
+        stageName={stageName}
       />
     </AgoraProvider>
   );

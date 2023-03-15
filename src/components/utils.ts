@@ -2,6 +2,8 @@ import type { Dispatch, SetStateAction } from "react";
 import { Color, ShaderMaterial, Vector3 } from "three";
 import type { customSpriteConfig } from "./types";
 
+export const distanceToUnsubscribe = 1.5;
+
 export const remoteSpriteCircleShader = new ShaderMaterial({
   transparent: true,
   uniforms: {

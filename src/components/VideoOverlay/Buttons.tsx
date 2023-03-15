@@ -28,14 +28,14 @@ export function Buttons(props: {
   };
 
   return (
-    <div className="absolute bottom-2 right-2 z-20 rounded-lg bg-white bg-opacity-80 p-4">
+    <div className="absolute top-2 right-2 z-20 rounded-lg bg-white bg-opacity-50 p-3">
       <div className="flex flex-row">
         <button className="mr-2 h-8" onClick={() => localVideoTrackMute()}>
           {localVideoMuteState ? <FiCameraOff size={25} /> : <FiCamera size={25} />}
         </button>
         <select
           id="cam"
-          className="block h-8 w-56 rounded-lg border border-gray-300 bg-gray-50 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          className="block h-8 w-56 rounded-lg border border-gray-300 bg-gray-50 bg-opacity-40 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           onChange={(e) => {
             const deviceId = e.target.value;
             void localVideoTrack
@@ -57,7 +57,7 @@ export function Buttons(props: {
         </button>
         <select
           id="mic"
-          className="block w-56 truncate rounded-lg border border-gray-300 bg-gray-50 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          className="block w-56 truncate rounded-lg border border-gray-300 bg-gray-50 bg-opacity-40 p-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           onChange={(e) => {
             const deviceId = e.target.value;
             void localAudioTrack

@@ -4,11 +4,9 @@ import { useRef, useState } from "react";
 import { Vector3 } from "three";
 import { AgoraDict, rtcClient } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { handleSprite, getRandomPet, remoteSpriteCircleShader } from "../utils";
+import { handleSprite, getRandomPet, remoteSpriteCircleShader, distanceToUnsubscribe } from "../utils";
 import type { MutableRefObject } from "react";
 import type { Sprite } from "three";
-
-const distanceToUnsubscribe = 1.5;
 
 export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid: number }) => {
   const spriteRef = useRef<Sprite>(null);
