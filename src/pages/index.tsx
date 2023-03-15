@@ -2,14 +2,15 @@ import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import styles from "../styles/index.module.css";
 import Card from "../ui/Card";
+import PrimaryButton from "../ui/PrimaryButton";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
 
   if (status === "loading") {
-    <Card text="loading..." />
+    <Card text="loading..." />;
   }
 
   if (status === "unauthenticated") {
@@ -18,12 +19,10 @@ const Home: NextPage = () => {
         <Head>
           <title>Agora Virtual Space</title>
         </Head>
-        <div className={styles.containerOuter}>
-          <h1 className={styles.title}>Login</h1>
-          <div>
-            <button onClick={() => void signIn()} className={styles.button}>
-              Sign In
-            </button>
+        <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100">
+          <h1 className="my-10 text-6xl font-bold leading-3 text-gray-700">Agora Virtual Space</h1>
+          <div className="my-10">
+            <SecondaryButton onClick={() => void signIn()}>Sign In</SecondaryButton>
           </div>
         </div>
       </>
@@ -32,25 +31,20 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div
-        className={styles.containerOuter}
-        style={{ flexDirection: "column" }}
-      >
-        <h1 className={styles.title}></h1>
-        <h3>Hi {data?.user.name}</h3>
-        <div className="flex-col">
+      <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100">
+        <h1 className="my-10 text-6xl font-bold leading-3 text-gray-700">Agora Virtual Space</h1>
+        <div className="my-10 flex-col">
           <Link href={"/view"}>
-            <button className={styles.button}>View Rooms</button>
+            <PrimaryButton>View Rooms</PrimaryButton>
           </Link>
           <Link href={"/create"}>
-            <button className={styles.button}>Create</button>
+            <PrimaryButton>Create Room</PrimaryButton>
           </Link>
         </div>
 
-        <div>
-          <button onClick={() => void signOut()} className={styles.button}>
-            Sign Out
-          </button>
+        <div className="my-10">
+          <h3 className="m-2">Signed in as: {data?.user.name}</h3>
+          <SecondaryButton onClick={() => void signOut()}>Sign Out</SecondaryButton>
         </div>
       </div>
     </>

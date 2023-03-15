@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { FiArrowLeft } from "react-icons/fi";
 import { characters } from "../../components/utils";
 import Card from "../../ui/Card";
 import { api } from "../../utils/api";
@@ -14,7 +15,7 @@ const Call = () => {
   const router = useRouter();
   const session = useSession();
   const [ready, setReady] = useState(false);
-  const roomDetails = api.example.getRoom.useQuery({roomId: router.query.channel as string })
+  const roomDetails = api.example.getRoom.useQuery({ roomId: router.query.channel as string });
   const tokenDetails = api.example.getToken.useQuery(
     { channel: router.query.channel as string },
     { enabled: router.query.channel !== undefined }
@@ -29,22 +30,19 @@ const Call = () => {
   if (session.status === "unauthenticated") void router.replace("/");
   if (tokenDetails.isLoading || roomDetails.isLoading) return <Card text="loading..." />;
   if (tokenDetails.isError || roomDetails.isError) return <Card text="error" />;
-  console.log('!',roomDetails.data?.stageName)
+  console.log("!", roomDetails.data?.stageName);
 
   return ready ? (
     <>
-      {/* <h1 className="text-2xl font-bold">{router.query.name}</h1> */}
       {tokenDetails.data && roomDetails.data ? (
         <>
           <button
-            className="absolute z-10"
+            className="absolute left-2 z-10 my-2 cursor-pointer rounded bg-white bg-opacity-60 px-2 py-1 shadow-sm hover:shadow-lg"
             onClick={() => {
-              void router.push("/").then(() => {
-                router.reload();
-              });
+              void router.push("/");
             }}
           >
-            back
+            <FiArrowLeft />
           </button>
           <Game
             channel={router.query.channel as string}

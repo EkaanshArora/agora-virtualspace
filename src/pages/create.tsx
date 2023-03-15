@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { api } from "../utils/api";
-import styles from "../styles/index.module.css";
+import PrimaryButton from "../ui/PrimaryButton";
 
 const Create = () => {
   const [room, setRoom] = useState("");
@@ -10,7 +10,7 @@ const Create = () => {
   const mutation = api.example.createRoom.useMutation();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-screen flex-col bg-gray-100">
       <form
         className="grid w-96 self-center"
         onSubmit={(e) => {
@@ -91,11 +91,12 @@ const Create = () => {
           </div>
         )}
         <br />
-        <button className={styles.button} formAction="submit">
-          Create
-        </button>
-        <br />
-        <Link href="/">back</Link>
+        <PrimaryButton formAction="submit">Create</PrimaryButton>
+        <Link href="/">
+          <button className="my-8 cursor-pointer rounded-md bg-white px-4 py-1 text-lg leading-7 text-blue-600 shadow-sm hover:shadow-md">
+            back
+          </button>
+        </Link>
       </form>
     </div>
   );

@@ -2,8 +2,10 @@ import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../agora-rtc-r
 import AgoraRTC from "../../agora-rtc-react";
 import { useState } from "react";
 import { FiCamera, FiCameraOff, FiMic, FiMicOff } from "react-icons/fi";
-const cams = await AgoraRTC.getCameras();
-const mics = await AgoraRTC.getMicrophones();
+
+const cams = await AgoraRTC.getCameras(true);
+const mics = await AgoraRTC.getMicrophones(true);
+
 export function Buttons(props: {
   localVideoMuteState: boolean;
   setLocalVideoMuteState: React.Dispatch<boolean>;
@@ -28,7 +30,7 @@ export function Buttons(props: {
   };
 
   return (
-    <div className="absolute top-2 right-2 z-20 rounded-lg bg-white bg-opacity-50 p-3">
+    <div className="absolute top-2 right-2 z-20 rounded-lg bg-white bg-opacity-50 p-3 shadow-sm hover:shadow-lg">
       <div className="flex flex-row">
         <button className="mr-2 h-8" onClick={() => localVideoTrackMute()}>
           {localVideoMuteState ? <FiCameraOff size={25} /> : <FiCamera size={25} />}

@@ -16,7 +16,7 @@ export const Stage = (props: { stageName: string }) => {
   
   return (
     textureLoaded ? (
-      <sprite scale={new Vector3(15, 9, 1)}>
+      <sprite scale={new Vector3(16, 9, 1)}>
         <spriteMaterial map={TextureRef.current} />
       </sprite>
     ) : <></>

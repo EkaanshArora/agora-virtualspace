@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Vector3 } from "three";
 import AgoraRTM from "agora-rtm-sdk";
-// import  from "agora-rtc-sdk-ng";
 import AgoraRTC, { AgoraProvider, useMicrophoneAndCameraTracks } from "../agora-rtc-react";
 import { Game } from "./GameRelated/Game";
 import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
@@ -9,10 +8,11 @@ import { env } from "../env/client.mjs";
 import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
 import { Videos } from "./VideoOverlay/Videos";
 import { Buttons } from "./VideoOverlay/Buttons";
+import Card from "../ui/Card";
+import SecondaryButton from "../ui/SecondaryButton";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
-// const useTracks = createMicrophoneAndCameraTracks();
 export let AgoraDict: { [uid: number]: agoraUserType } = {};
 export const rtmClient = AgoraRTM.createInstance(appId, {
   logFilter: AgoraRTM.LOG_FILTER_WARNING,
@@ -99,27 +99,25 @@ function App(props: {
   if (error) {
     return (
       <>
-        <br />
-        <br />
-        <br />
-        <div className="max-w-sm overflow-hidden rounded shadow-lg">{error.message}</div>
-        <br />
-        <br />
-        <button
-          onClick={() => {
-            location.reload();
-          }}
-        >
-          refresh
-        </button>
+        <Card text={error.message}>
+          <div className="mx-auto mt-4 max-w-sm">
+            <SecondaryButton
+              onClick={() => {
+                location.reload();
+              }}
+            >
+              refresh
+            </SecondaryButton>
+          </div>
+        </Card>
       </>
     );
   }
 
   return (
-    <div className="h-screen w-screen">
+    <>
       {ready && tracks ? (
-        <>
+        <div className="h-screen w-screen bg-gray-100">
           <Videos
             playerPos={playerPos}
             localAudioTrack={tracks[0]}
@@ -140,11 +138,12 @@ function App(props: {
             character={character}
             stageName={stageName}
           />
-        </>
+        </div>
       ) : (
-        <div className="max-w-sm overflow-hidden rounded shadow-lg">Starting camera...</div>
+        // <div className="max-w-sm overflow-hidden rounded shadow-lg mx-auto p-8 my-10">Starting camera...</div>
+        <Card text="Starting camera..." />
       )}
-    </div>
+    </>
   );
 }
 

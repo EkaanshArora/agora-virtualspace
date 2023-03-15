@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { api } from "../utils/api";
 import Card from "../ui/Card";
 import Link from "next/link";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const ViewRooms = () => {
   const rooms = api.example.getAllRooms.useQuery();
@@ -12,7 +13,7 @@ const ViewRooms = () => {
   return (
     <div className="h-max min-h-screen bg-gray-100">
       <h1 className="mb-8 p-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 ">
-        Rooms:
+        Rooms
       </h1>
       <div className="m-8 flex flex-wrap">
         {rooms.data &&
@@ -39,8 +40,9 @@ const ViewRooms = () => {
             </div>
           ))}
       </div>
-      <br />
-      <Link href="/">back</Link>
+      <Link href="/">
+        <SecondaryButton>back</SecondaryButton>
+      </Link>
       <br />
       <br />
     </div>
