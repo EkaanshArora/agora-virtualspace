@@ -32,11 +32,11 @@ export const Player = (props: {
     console.log(dragRef);
     if (dragRef[0] || dragRef[1]) {
       if (dragRef[0] < 0) {
-        _velocity.x = -0.4;
+        _velocity.x = -0.7;
         setSpriteState(character.left);
       }
       if (dragRef[0] > 0) {
-        _velocity.x = 0.4;
+        _velocity.x = 0.7;
         setSpriteState(character.right);
       }
       if (dragRef[0] === 0) {
@@ -45,11 +45,11 @@ export const Player = (props: {
       }
 
       if (dragRef[1] < 0) {
-        _velocity.y = 0.4;
+        _velocity.y = 0.7;
         setSpriteState(character.up);
       }
       if (dragRef[1] > 0) {
-        _velocity.y = -0.4;
+        _velocity.y = -0.7;
         setSpriteState(character.down);
       }
       if (dragRef[1] === 0) {
