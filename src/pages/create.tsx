@@ -10,9 +10,9 @@ const Create = () => {
   const mutation = api.example.createRoom.useMutation();
 
   return (
-    <div className="flex h-screen flex-col bg-gray-100">
+    <div className="flex min-h-screen flex-col bg-gray-100">
       <form
-        className="grid w-96 self-center"
+        className="grid w-80 self-center"
         onSubmit={(e) => {
           e.preventDefault();
           mutation.mutate(
@@ -27,7 +27,7 @@ const Create = () => {
           );
         }}
       >
-        <h1 className="mb-8 pt-8 text-3xl font-extrabold leading-none tracking-tight text-gray-900 ">
+        <h1 className="mb-8 pt-8 text-4xl font-extrabold leading-none text-gray-900">
           Create Room
         </h1>
         <div>

@@ -12,7 +12,7 @@ const ViewRooms = () => {
   }
   return (
     <div className="h-max min-h-screen bg-gray-100">
-      <h1 className="mb-8 p-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 ">
+      <h1 className="mb-8 p-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900">
         Rooms
       </h1>
       <div className="m-8 flex flex-wrap">

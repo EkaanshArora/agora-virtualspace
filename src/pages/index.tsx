@@ -20,7 +20,9 @@ const Home: NextPage = () => {
           <title>Agora Virtual Space</title>
         </Head>
         <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100">
-          <h1 className="my-10 text-6xl font-bold leading-3 text-gray-700">Agora Virtual Space</h1>
+          <h1 className="my-10 text-5xl font-bold leading-none text-gray-700">
+            Agora Virtual Space
+          </h1>
           <div className="my-10">
             <SecondaryButton onClick={() => void signIn()}>Sign In</SecondaryButton>
           </div>
@@ -32,7 +34,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100">
-        <h1 className="my-10 text-6xl font-bold leading-3 text-gray-700">Agora Virtual Space</h1>
+        <h1 className="my-10 text-5xl font-bold leading-none text-gray-700">Agora Virtual Space</h1>
         <div className="my-10 flex-col">
           <Link href={"/view"}>
             <PrimaryButton>View Rooms</PrimaryButton>
