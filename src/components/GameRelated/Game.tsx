@@ -5,10 +5,11 @@ import type { Dispatch, SetStateAction } from "react";
 import { useMemo } from "react";
 import type { Vector3 } from "three";
 import { Stage } from "./Stage";
-import { Player } from "./Player";
+import { dragRef, Player } from "./Player";
 import { RemoteSprite } from "./RemoteSprite";
 import type { customSpriteConfig, remoteUserType, userPosition } from "../types";
 import { Controls } from "../types";
+import { useDrag } from "@use-gesture/react";
 
 export const Game = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
@@ -18,6 +19,15 @@ export const Game = (props: {
   stageName: string;
 }) => {
   const { playerPos, remoteUsers, setPlayerPos, character, stageName } = props;
+  const bind = useDrag((state) => {
+    dragRef[0] = state.direction[0];
+    dragRef[1] = state.direction[1];
+    if (!state.dragging) {
+      dragRef[0] = 0;
+      dragRef[1] = 0;
+    }
+  }, {});
+  
   const keyMap = useMemo<KeyboardControlsEntry<Controls>[]>(
     () => [
       { name: Controls.forward, keys: ["ArrowUp", "w", "W"] },
@@ -31,7 +41,7 @@ export const Game = (props: {
 
   return (
     <>
-      <Canvas>
+      <Canvas {...bind()} style={{touchAction: 'none'}}>
         <KeyboardControls map={keyMap}>
           <Stage stageName={stageName} />
           <Player setPlayerPos={setPlayerPos} character={character} />

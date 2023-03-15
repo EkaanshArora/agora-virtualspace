@@ -33,7 +33,7 @@ const Call = () => {
   console.log("!", roomDetails.data?.stageName);
 
   return ready ? (
-    <div className="bg-gray-100 w-screen h-screen overflow-hidden">
+    <div className="bg-gray-100 w-screen h-screen overflow-hidden fixed">
       {tokenDetails.data && roomDetails.data ? (
         <>
           <button

@@ -8,12 +8,13 @@ import { Vector3 } from "three";
 import type { Controls, customSpriteConfig } from "../types";
 import { rtmChannel } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { useDrag } from "@use-gesture/react";
+
 const _velocity = new Vector3();
 
 export const sendPositionRTM = (position: Vector3) => {
   void rtmChannel.sendMessage({ text: JSON.stringify(position) }).catch((e) => console.log(e));
 };
+export const dragRef = [0, 0] as [number, number];
 
 export const Player = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
@@ -24,40 +25,34 @@ export const Player = (props: {
   const [spriteState, setSpriteState] = useState(character.left);
   const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, spriteState);
   const counter = useRef(0);
-  const bind = useDrag((state) => {
-    dragRef.current = state.direction;
-    if (!state.dragging) {
-      dragRef.current = [0, 0];
-    }
-  }, { pointer: { touch: true }});
-  const dragRef = useRef<[number, number]>([0, 0]);
+  
   const [, get] = useKeyboardControls<Controls>();
   useFrame((s, dl) => {
     if (!ref.current) return;
-    if (dragRef.current[0] || dragRef.current[1]) {
-      console.log(dragRef.current);
-      if (dragRef.current[0] < 0) {
+    console.log(dragRef);
+    if (dragRef[0] || dragRef[1]) {
+      if (dragRef[0] < 0) {
         _velocity.x = -0.4;
         setSpriteState(character.left);
       }
-      if (dragRef.current[0] > 0) {
+      if (dragRef[0] > 0) {
         _velocity.x = 0.4;
         setSpriteState(character.right);
       }
-      if (dragRef.current[0] === 0) {
+      if (dragRef[0] === 0) {
         _velocity.x = -0;
         setSpriteState(character.stand);
       }
 
-      if (dragRef.current[1] < 0) {
+      if (dragRef[1] < 0) {
         _velocity.y = 0.4;
         setSpriteState(character.up);
       }
-      if (dragRef.current[1] > 0) {
+      if (dragRef[1] > 0) {
         _velocity.y = -0.4;
         setSpriteState(character.down);
       }
-      if (dragRef.current[1] === 0) {
+      if (dragRef[1] === 0) {
         _velocity.y = 0;
       }
     } else {
@@ -99,8 +94,7 @@ export const Player = (props: {
   });
 
   return (
-    // @ts-expect-error binding useGesture to sprite makes TS unhappy but seems to work
-    <sprite ref={ref} scale={character.charSize} {...bind()}>
+    <sprite ref={ref} scale={character.charSize}>
       <spriteMaterial map={texture} />
     </sprite>
   );
