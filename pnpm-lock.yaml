@@ -17,6 +17,7 @@ specifiers:
   '@types/three': ^0.149.0
   '@typescript-eslint/eslint-plugin': ^5.47.1
   '@typescript-eslint/parser': ^5.47.1
+  '@use-gesture/react': ^10.2.24
   agora-access-token: ^2.0.4
   agora-react-uikit: ^1.2.0
   agora-rtc-sdk-ng: ^4.16.0
@@ -50,6 +51,7 @@ dependencies:
   '@trpc/next': 10.9.1_sdbnixcqshtnjx3srzy5zxmwpi
   '@trpc/react-query': 10.9.1_lufshy7b2b64wm7asciqips2fm
   '@trpc/server': 10.9.1
+  '@use-gesture/react': 10.2.24_react@18.2.0
   agora-react-uikit: 1.2.0_react@18.2.0
   agora-rtc-sdk-ng: 4.16.0
   agora-rtm-sdk: 1.6.0-205
