@@ -1,12 +1,18 @@
 import { useFrame } from "@react-three/fiber";
-import { Circle } from "@react-three/drei";
+import { Circle, Text } from "@react-three/drei";
 import { useRef, useState } from "react";
 import { Vector3 } from "three";
 import { AgoraDict, rtcClient } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
-import { handleSprite, getRandomPet, remoteSpriteCircleShader, distanceToUnsubscribe } from "../utils";
+import {
+  handleSprite,
+  getRandomPet,
+  remoteSpriteCircleShader,
+  distanceToUnsubscribe,
+} from "../utils";
 import type { MutableRefObject } from "react";
 import type { Sprite } from "three";
+import { api } from "../../utils/api";
 
 export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid: number }) => {
   const spriteRef = useRef<Sprite>(null);
@@ -16,7 +22,7 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
   const [sprite, setSprite] = useState(spriteConfigPet.stand);
   const texture = useAnimatedSprite(spriteRef as MutableRefObject<Sprite>, sprite);
   const { position, playerPos, uid } = props;
-
+  const { data } = api.example.getUserName.useQuery({ agoraId: uid });
   useFrame(() => {
     const remotePos = spriteRef.current?.position;
     const agoraUser = AgoraDict[uid];
@@ -81,6 +87,9 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
       />
       <sprite ref={spriteRef} scale={spriteConfigPet.charSize}>
         <spriteMaterial map={texture} />
+        <Text scale={0.18} anchorY={2.6} outlineWidth={0.04}>
+          {data?.name ? data.name?.split(" ")[0] : '...'}
+        </Text>
       </sprite>
     </>
   );

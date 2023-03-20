@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useKeyboardControls } from "@react-three/drei";
+import { Text, useKeyboardControls } from "@react-three/drei";
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { useState } from "react";
 import { useRef } from "react";
@@ -25,7 +25,7 @@ export const Player = (props: {
   const [spriteState, setSpriteState] = useState(character.left);
   const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, spriteState);
   const counter = useRef(0);
-  
+
   const [, get] = useKeyboardControls<Controls>();
   useFrame((s, dl) => {
     if (!ref.current) return;
@@ -96,6 +96,9 @@ export const Player = (props: {
   return (
     <sprite ref={ref} scale={character.charSize}>
       <spriteMaterial map={texture} />
+      <Text scale={[0.36, 0.18, 1]} anchorY={3} outlineWidth={0.04}>
+        You
+      </Text>
     </sprite>
   );
 };
