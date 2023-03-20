@@ -29,7 +29,6 @@ export const Player = (props: {
   const [, get] = useKeyboardControls<Controls>();
   useFrame((s, dl) => {
     if (!ref.current) return;
-    console.log(dragRef);
     if (dragRef[0] || dragRef[1]) {
       if (dragRef[0] < 0) {
         _velocity.x = -0.7;

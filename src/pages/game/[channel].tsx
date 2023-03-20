@@ -33,13 +33,19 @@ const Call = () => {
   console.log("!", roomDetails.data?.stageName);
 
   return ready ? (
-    <div className="bg-gray-100 w-screen h-full overflow-auto fixed top-0" style={{transform: 'translate3d(0,0,0)'}}>
+    <div
+      className="fixed top-0 h-full w-screen overflow-auto bg-gray-100"
+      style={{ transform: "translate3d(0,0,0)" }}
+    >
       {tokenDetails.data && roomDetails.data ? (
         <>
           <button
             className="absolute left-2 z-10 my-2 cursor-pointer rounded bg-white bg-opacity-60 px-2 py-1 shadow-sm hover:shadow-lg"
             onClick={() => {
-              void router.push("/");
+              void router.push("/").then(
+                // gc everything
+                () => void router.reload()
+              );
             }}
           >
             <FiArrowLeft />

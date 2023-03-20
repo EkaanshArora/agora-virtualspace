@@ -20,10 +20,17 @@ export const Videos = (props: {
         <RemoteVideo key={u} u={u} remoteUsers={remoteUsers} playerPos={playerPos} />
       ))}
       {!localVideoMuteState ? (
-        <AgoraVideoPlayer
-          className="mx-1 h-full w-28 overflow-hidden rounded-full"
-          videoTrack={localVideoTrack}
-        />
+        <div className="mx-1 h-full w-24">
+          <AgoraVideoPlayer
+            className="h-24 w-24 overflow-hidden rounded-full"
+            videoTrack={localVideoTrack}
+          />
+          <div className="m-1 rounded-full bg-white leading-tight opacity-60">
+            <p className="m-auto w-20 overflow-hidden text-ellipsis whitespace-nowrap text-sm align-middle self-center justify-center">
+              you
+            </p>
+          </div>
+        </div>
       ) : (
         <MutedVideo name={"you"} />
       )}

@@ -10,6 +10,7 @@ import { Videos } from "./VideoOverlay/Videos";
 import { Buttons } from "./VideoOverlay/Buttons";
 import Card from "../ui/Card";
 import SecondaryButton from "../ui/SecondaryButton";
+import {sendPositionRTM} from './GameRelated/Player'
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
@@ -81,10 +82,11 @@ function App(props: {
 
     return () => {
       const func = () => {
+        void sendPositionRTM(new Vector3(1000, 1000, 100))
         rtmChannel.removeAllListeners();
         rtcClient.removeAllListeners();
-        // await rtmChannel.leave();
-        // await rtmClient.logout();
+        // void rtmChannel.leave();
+        // void rtmClient.logout();
         setRemoteUsers({});
         AgoraDict = {};
       };

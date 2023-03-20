@@ -33,7 +33,6 @@ export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid
       handleSprite(setSprite, position, remotePos, spriteConfigPet);
       // subscription logic
       if (agoraUser) {
-        console.log("try");
         if (
           remotePos.distanceTo(playerPos) > distanceToUnsubscribe &&
           agoraUser.isSubscribedAudio
