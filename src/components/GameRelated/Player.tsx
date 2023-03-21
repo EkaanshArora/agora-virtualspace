@@ -4,6 +4,7 @@ import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 import type { Sprite } from "three";
+import { Frustum, Matrix4 } from "three";
 import { Vector3 } from "three";
 import type { Controls, customSpriteConfig } from "../types";
 import { rtmChannel } from "../GameContainer";
@@ -24,6 +25,8 @@ export const Player = (props: {
   const { setPlayerPos, character } = props;
   const [spriteState, setSpriteState] = useState(character.left);
   const texture = useAnimatedSprite(ref as MutableRefObject<Sprite>, spriteState);
+  const frustum = useRef(new Frustum());
+  const boundsMatrix = useRef(new Matrix4());
   const counter = useRef(0);
 
   const [, get] = useKeyboardControls<Controls>();
@@ -81,12 +84,22 @@ export const Player = (props: {
 
       if (keyState.jump) ref.current.position.set(0, 0, 0);
     }
-    ref.current.position.addScaledVector(_velocity, character.speed * dl);
-    ref.current.position.z = 1;
-    setPlayerPos(ref.current.position);
+
+    // handle out of bounds
+    boundsMatrix.current.multiplyMatrices(s.camera.projectionMatrix, s.camera.matrixWorldInverse);
+    frustum.current.setFromProjectionMatrix(boundsMatrix.current);
+    if (!frustum.current.containsPoint(ref.current.position)) {
+      ref.current.position.lerp(new Vector3(0, 0, 0), 0.1);
+      setPlayerPos(ref.current.position);
+    } else {
+      ref.current.position.addScaledVector(_velocity, character.speed * dl);
+      ref.current.position.z = 1;
+      setPlayerPos(ref.current.position);
+    }
     const time = s.clock.getElapsedTime();
     const factor = 10;
     if (Math.round(time * factor) / factor > counter.current) {
+      // console.log(ref.current.position)
       sendPositionRTM(ref.current.position);
       counter.current = Math.round(time * factor) / factor;
     }
