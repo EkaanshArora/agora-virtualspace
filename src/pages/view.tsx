@@ -3,6 +3,7 @@ import { api } from "../utils/api";
 import Card from "../ui/Card";
 import Link from "next/link";
 import SecondaryButton from "../ui/SecondaryButton";
+import Image from "next/image";
 
 const ViewRooms = () => {
   const rooms = api.main.getAllRooms.useQuery();
@@ -30,9 +31,10 @@ const ViewRooms = () => {
               >
                 <p className="text-xl font-bold ">{room.name}</p>
                 <p className="text-md font-normal text-gray-500 ">{room.description}</p>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   className="m-auto h-64 w-96 object-cover pb-2"
+                  width={384}
+                  height={256}
                   src={`/${room.stageName ?? "stage"}.webp`}
                   alt="stage"
                 />

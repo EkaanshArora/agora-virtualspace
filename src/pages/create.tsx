@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { api } from "../utils/api";
 import PrimaryButton from "../ui/PrimaryButton";
+import Image from "next/image";
 
 const Create = () => {
   const [room, setRoom] = useState("");
@@ -62,8 +63,7 @@ const Create = () => {
           <label htmlFor="stage" className="m-2 block text-sm font-medium text-gray-900 ">
             Select a map
           </label>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="m-auto h-64 pb-2" src={`/${stageName}.webp`} alt="stage" />
+          <Image className="m-auto h-64 pb-2" height={256} width={320} src={`/${stageName}.webp`} alt="stage" />
           <select
             id="stage"
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
