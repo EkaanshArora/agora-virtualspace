@@ -16,8 +16,8 @@ export const Videos = (props: {
 
   return (
     <div className="absolute right-0 bottom-0 z-10 flex h-32 w-screen justify-center p-2">
-      {Object.keys(remoteUsers).map((u) => (
-        <RemoteVideo key={u} u={u} remoteUsers={remoteUsers} playerPos={playerPos} />
+      {Object.keys(remoteUsers).map((uid) => (
+        <RemoteVideo key={uid} uid={uid} remoteUsers={remoteUsers} playerPos={playerPos} />
       ))}
       {!localVideoMuteState ? (
         <div className="mx-1 h-full w-24">
@@ -26,7 +26,7 @@ export const Videos = (props: {
             videoTrack={localVideoTrack}
           />
           <div className="m-1 rounded-full bg-white leading-tight opacity-60">
-            <p className="m-auto w-20 overflow-hidden text-ellipsis whitespace-nowrap text-sm align-middle self-center justify-center">
+            <p className="m-auto w-20 justify-center self-center overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm">
               you
             </p>
           </div>

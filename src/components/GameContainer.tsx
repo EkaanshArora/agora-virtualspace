@@ -7,10 +7,10 @@ import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
 import { env } from "../env/client.mjs";
 import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
 import { Videos } from "./VideoOverlay/Videos";
-import { Buttons } from "./VideoOverlay/Buttons";
+import { Buttons } from "./VideoOverlay/ButtonContainer";
 import Card from "../ui/Card";
 import SecondaryButton from "../ui/SecondaryButton";
-import {sendPositionRTM} from './GameRelated/Player'
+import { sendPositionRTM } from "./GameRelated/Player";
 
 AgoraRTC.setLogLevel(2);
 const appId = env.NEXT_PUBLIC_APP_ID;
@@ -23,14 +23,23 @@ export const rtmClient = AgoraRTM.createInstance(appId, {
 export const rtmChannel = rtmClient.createChannel(window.location.pathname.slice("/game/".length));
 export const rtcClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
-function App(props: {
-  agoraId: number;
-  rtcToken: string;
-  rtmToken: string;
-  channel: string;
-  character: customSpriteConfig;
-  stageName: string;
-}) {
+const GameContainerWrapped = (props: GameProps) => {
+  const { agoraId, channel, character, rtcToken, rtmToken, stageName } = props;
+  return (
+    <AgoraProvider>
+      <GameContainer
+        agoraId={agoraId}
+        channel={channel}
+        character={character}
+        rtcToken={rtcToken}
+        rtmToken={rtmToken}
+        stageName={stageName}
+      />
+    </AgoraProvider>
+  );
+};
+
+function GameContainer(props: GameProps) {
   const [localVideoMuteState, setLocalVideoMuteState] = useState(false);
   const { isSuccess: ready, data: tracks, error } = useMicrophoneAndCameraTracks("usetrack");
   const [remoteUsers, setRemoteUsers] = useState<remoteUserType>({});
@@ -56,12 +65,10 @@ function App(props: {
             });
             delete AgoraDict[user.uid as number];
           });
-          console.log("!", agoraId, rtcToken);
           await rtcClient.join(appId, channel, rtcToken, agoraId);
           await rtcClient.publish(tracks).catch((e) => {
             console.log(e);
           });
-          console.log("!joined RTC: " + String(agoraId));
         } catch (e) {
           console.log("!", e);
         }
@@ -82,7 +89,7 @@ function App(props: {
 
     return () => {
       const func = () => {
-        void sendPositionRTM(new Vector3(1000, 1000, 100))
+        void sendPositionRTM(new Vector3(1000, 1000, 100));
         rtmChannel.removeAllListeners();
         rtcClient.removeAllListeners();
         // void rtmChannel.leave();
@@ -100,19 +107,17 @@ function App(props: {
 
   if (error) {
     return (
-      <>
-        <Card text={error.message}>
-          <div className="mx-auto mt-4 max-w-sm">
-            <SecondaryButton
-              onClick={() => {
-                location.reload();
-              }}
-            >
-              refresh
-            </SecondaryButton>
-          </div>
-        </Card>
-      </>
+      <Card text={error.message}>
+        <div className="mx-auto mt-4 max-w-sm">
+          <SecondaryButton
+            onClick={() => {
+              location.reload();
+            }}
+          >
+            refresh
+          </SecondaryButton>
+        </div>
+      </Card>
     );
   }
 
@@ -142,34 +147,19 @@ function App(props: {
           />
         </div>
       ) : (
-        // <div className="max-w-sm overflow-hidden rounded shadow-lg mx-auto p-8 my-10">Starting camera...</div>
         <Card text="Starting camera..." />
       )}
     </>
   );
 }
 
-const GameWrapper = (props: {
+type GameProps = {
   agoraId: number;
   rtcToken: string;
   rtmToken: string;
   channel: string;
   character: customSpriteConfig;
   stageName: string;
-}) => {
-  const { agoraId, channel, character, rtcToken, rtmToken, stageName } = props;
-  return (
-    <AgoraProvider>
-      <App
-        agoraId={agoraId}
-        channel={channel}
-        character={character}
-        rtcToken={rtcToken}
-        rtmToken={rtmToken}
-        stageName={stageName}
-      />
-    </AgoraProvider>
-  );
 };
 
-export default GameWrapper;
+export default GameContainerWrapped;

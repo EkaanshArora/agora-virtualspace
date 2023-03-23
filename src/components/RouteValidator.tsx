@@ -6,9 +6,7 @@ type Props = {
   children: React.ReactElement;
 };
 
-const Loading = () => (
-    <Card text="loading..." />
-);
+const Loading = () => <Card text="loading..." />;
 
 const RouteValidatorAuth: React.FC<Props> = ({ children }) => {
   const router = useRouter();

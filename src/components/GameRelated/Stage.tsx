@@ -5,7 +5,7 @@ import { Vector3, TextureLoader } from "three";
 const TextureHolder = new TextureLoader();
 
 export const Stage = (props: { stageName: string }) => {
-  const stageName = props.stageName; // ?? "stage";
+  const stageName = props.stageName;
   const TextureRef = useRef<Texture>();
   const [textureLoaded, setTextureLoaded] = useState(false);
 
@@ -13,12 +13,12 @@ export const Stage = (props: { stageName: string }) => {
     TextureRef.current = TextureHolder.load(`/${stageName}.webp`);
     setTextureLoaded(true);
   }, [stageName]);
-  
-  return (
-    textureLoaded ? (
-      <sprite scale={new Vector3(16, 9, 1)}>
-        <spriteMaterial map={TextureRef.current} />
-      </sprite>
-    ) : <></>
+
+  return textureLoaded ? (
+    <sprite scale={new Vector3(16, 9, 1)}>
+      <spriteMaterial map={TextureRef.current} />
+    </sprite>
+  ) : (
+    <></>
   );
 };

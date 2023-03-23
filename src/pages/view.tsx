@@ -5,7 +5,7 @@ import Link from "next/link";
 import SecondaryButton from "../ui/SecondaryButton";
 
 const ViewRooms = () => {
-  const rooms = api.example.getAllRooms.useQuery();
+  const rooms = api.main.getAllRooms.useQuery();
   const router = useRouter();
   if (rooms.isLoading || !rooms.data) {
     return <Card text="loading..." />;

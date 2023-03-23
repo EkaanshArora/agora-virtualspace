@@ -15,8 +15,8 @@ const Call = () => {
   const router = useRouter();
   const session = useSession();
   const [ready, setReady] = useState(false);
-  const roomDetails = api.example.getRoom.useQuery({ roomId: router.query.channel as string });
-  const tokenDetails = api.example.getToken.useQuery(
+  const roomDetails = api.main.getRoom.useQuery({ roomId: router.query.channel as string });
+  const tokenDetails = api.main.getToken.useQuery(
     { channel: router.query.channel as string },
     { enabled: router.query.channel !== undefined }
   );
@@ -30,7 +30,6 @@ const Call = () => {
   if (session.status === "unauthenticated") void router.replace("/");
   if (tokenDetails.isLoading || roomDetails.isLoading) return <Card text="loading..." />;
   if (tokenDetails.isError || roomDetails.isError) return <Card text="error" />;
-  console.log("!", roomDetails.data?.stageName);
 
   return ready ? (
     <div
@@ -66,11 +65,11 @@ const Call = () => {
           />
         </>
       ) : (
-        <></>
+        <Card text="error" />
       )}
     </div>
   ) : (
-    <></>
+    <Card text="loading..." />
   );
 };
 

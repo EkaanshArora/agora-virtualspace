@@ -7,7 +7,7 @@ const Create = () => {
   const [room, setRoom] = useState("");
   const [description, setDescription] = useState("");
   const [stageName, setStageName] = useState("stage");
-  const mutation = api.example.createRoom.useMutation();
+  const mutation = api.main.createRoom.useMutation();
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-100">
@@ -21,7 +21,6 @@ const Create = () => {
               onSuccess: () => {
                 setDescription("");
                 setRoom("");
-                // setStageName("stage")
               },
             }
           );

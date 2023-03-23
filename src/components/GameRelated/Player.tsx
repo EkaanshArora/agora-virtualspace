@@ -11,11 +11,11 @@ import { rtmChannel } from "../GameContainer";
 import { useAnimatedSprite } from "use-animated-sprite";
 
 const _velocity = new Vector3();
+export const dragRef = [0, 0] as [number, number];
 
 export const sendPositionRTM = (position: Vector3) => {
   void rtmChannel.sendMessage({ text: JSON.stringify(position) }).catch((e) => console.log(e));
 };
-export const dragRef = [0, 0] as [number, number];
 
 export const Player = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
@@ -28,63 +28,21 @@ export const Player = (props: {
   const frustum = useRef(new Frustum());
   const boundsMatrix = useRef(new Matrix4());
   const counter = useRef(0);
-
   const [, get] = useKeyboardControls<Controls>();
+
   useFrame((s, dl) => {
     if (!ref.current) return;
+    // handle user controls
     if (dragRef[0] || dragRef[1]) {
-      if (dragRef[0] < 0) {
-        _velocity.x = -0.7;
-        setSpriteState(character.left);
-      }
-      if (dragRef[0] > 0) {
-        _velocity.x = 0.7;
-        setSpriteState(character.right);
-      }
-      if (dragRef[0] === 0) {
-        _velocity.x = -0;
-        setSpriteState(character.stand);
-      }
-
-      if (dragRef[1] < 0) {
-        _velocity.y = 0.7;
-        setSpriteState(character.up);
-      }
-      if (dragRef[1] > 0) {
-        _velocity.y = -0.7;
-        setSpriteState(character.down);
-      }
-      if (dragRef[1] === 0) {
-        _velocity.y = 0;
-      }
+      handleMouse(setSpriteState, character);
     } else {
       const keyState = get();
-      if (keyState.left && !keyState.right) {
-        _velocity.x = -1;
-        setSpriteState(character.left);
+      handleKeyboard(keyState, setSpriteState, character);
+      if (keyState.jump) {
+        // reset position on jump
+        ref.current.position.set(0, 0, 0);
       }
-      if (keyState.right && !keyState.left) {
-        _velocity.x = 1;
-        setSpriteState(character.right);
-      }
-      if (!keyState.left && !keyState.right) {
-        _velocity.x = -0;
-        setSpriteState(character.stand);
-      }
-
-      if (keyState.forward && !keyState.back) {
-        _velocity.y = 1;
-        setSpriteState(character.up);
-      }
-      if (keyState.back && !keyState.forward) {
-        _velocity.y = -1;
-        setSpriteState(character.down);
-      }
-      if (!keyState.forward && !keyState.back) _velocity.y = 0;
-
-      if (keyState.jump) ref.current.position.set(0, 0, 0);
     }
-
     // handle out of bounds
     boundsMatrix.current.multiplyMatrices(s.camera.projectionMatrix, s.camera.matrixWorldInverse);
     frustum.current.setFromProjectionMatrix(boundsMatrix.current);
@@ -96,10 +54,10 @@ export const Player = (props: {
       ref.current.position.z = 1;
       setPlayerPos(ref.current.position);
     }
+    // throttle
     const time = s.clock.getElapsedTime();
     const factor = 10;
     if (Math.round(time * factor) / factor > counter.current) {
-      // console.log(ref.current.position)
       sendPositionRTM(ref.current.position);
       counter.current = Math.round(time * factor) / factor;
     }
@@ -114,3 +72,82 @@ export const Player = (props: {
     </sprite>
   );
 };
+
+function handleKeyboard(
+  keyState: { forward: boolean; back: boolean; left: boolean; right: boolean; jump: boolean },
+  setSpriteState: Dispatch<
+    SetStateAction<{
+      spriteSheetUrl: string;
+      xCount: number;
+      yCount: number;
+      spriteX: number;
+      spriteY: number;
+      spriteFrames: number;
+      interval: number;
+    }>
+  >,
+  character: customSpriteConfig,
+) {
+  if (keyState.left && !keyState.right) {
+    _velocity.x = -1;
+    setSpriteState(character.left);
+  }
+  if (keyState.right && !keyState.left) {
+    _velocity.x = 1;
+    setSpriteState(character.right);
+  }
+  if (!keyState.left && !keyState.right) {
+    _velocity.x = -0;
+    setSpriteState(character.stand);
+  }
+
+  if (keyState.forward && !keyState.back) {
+    _velocity.y = 1;
+    setSpriteState(character.up);
+  }
+  if (keyState.back && !keyState.forward) {
+    _velocity.y = -1;
+    setSpriteState(character.down);
+  }
+  if (!keyState.forward && !keyState.back) _velocity.y = 0;
+}
+
+function handleMouse(
+  setSpriteState: Dispatch<
+    SetStateAction<{
+      spriteSheetUrl: string;
+      xCount: number;
+      yCount: number;
+      spriteX: number;
+      spriteY: number;
+      spriteFrames: number;
+      interval: number;
+    }>
+  >,
+  character: customSpriteConfig
+) {
+  if (dragRef[0] < 0) {
+    _velocity.x = -0.7;
+    setSpriteState(character.left);
+  }
+  if (dragRef[0] > 0) {
+    _velocity.x = 0.7;
+    setSpriteState(character.right);
+  }
+  if (dragRef[0] === 0) {
+    _velocity.x = 0;
+    setSpriteState(character.stand);
+  }
+
+  if (dragRef[1] < 0) {
+    _velocity.y = 0.7;
+    setSpriteState(character.up);
+  }
+  if (dragRef[1] > 0) {
+    _velocity.y = -0.7;
+    setSpriteState(character.down);
+  }
+  if (dragRef[1] === 0) {
+    _velocity.y = 0;
+  }
+}

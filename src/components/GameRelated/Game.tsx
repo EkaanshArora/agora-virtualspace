@@ -11,13 +11,7 @@ import type { customSpriteConfig, remoteUserType, userPosition } from "../types"
 import { Controls } from "../types";
 import { useDrag } from "@use-gesture/react";
 
-export const Game = (props: {
-  setPlayerPos: Dispatch<SetStateAction<Vector3>>;
-  remoteUsers: remoteUserType;
-  playerPos: Vector3;
-  character: customSpriteConfig;
-  stageName: string;
-}) => {
+export const Game = (props: GameProps) => {
   const { playerPos, remoteUsers, setPlayerPos, character, stageName } = props;
   const bind = useDrag((state) => {
     dragRef[0] = state.direction[0];
@@ -57,4 +51,12 @@ export const Game = (props: {
       </Canvas>
     </>
   );
+};
+
+type GameProps = {
+  setPlayerPos: Dispatch<SetStateAction<Vector3>>;
+  remoteUsers: remoteUserType;
+  playerPos: Vector3;
+  character: customSpriteConfig;
+  stageName: string;
 };

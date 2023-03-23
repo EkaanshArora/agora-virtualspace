@@ -10,7 +10,7 @@ const roomSchema = z.object({
   stageName: z.string(),
 });
 
-export const exampleRouter = createTRPCRouter({
+export const mainRouter = createTRPCRouter({
   hello: publicProcedure.input(z.object({ text: z.string() })).query(({ input }) => {
     return {
       greeting: `Hello ${input.text}`,
