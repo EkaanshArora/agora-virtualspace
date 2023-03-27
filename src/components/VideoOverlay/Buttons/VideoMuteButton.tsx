@@ -1,4 +1,4 @@
-import type { ICameraVideoTrack } from "../../agora-rtc-react";
+import type { ICameraVideoTrack } from "../../../agora-rtc-react";
 import type { Dispatch } from "react";
 import { useState } from "react";
 import { FiCamera, FiCameraOff } from "react-icons/fi";

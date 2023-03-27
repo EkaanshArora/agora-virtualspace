@@ -7,7 +7,7 @@ import { handleChannelMessage } from "./VideoOverlay/AgoraHelpers";
 import { env } from "../env/client.mjs";
 import type { agoraUserType, customSpriteConfig, remoteUserType } from "./types";
 import { Videos } from "./VideoOverlay/Videos";
-import { Buttons } from "./VideoOverlay/ButtonContainer";
+import { Buttons } from "./VideoOverlay/Buttons/ButtonContainer";
 import Card from "../ui/Card";
 import SecondaryButton from "../ui/SecondaryButton";
 import { sendPositionRTM } from "./GameRelated/Player";

@@ -1,5 +1,5 @@
-import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../agora-rtc-react";
-import AgoraRTC from "../../agora-rtc-react";
+import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../../agora-rtc-react";
+import AgoraRTC from "../../../agora-rtc-react";
 import { AudioMuteButton } from "./AudioMuteButton";
 import { VideoMuteButton } from "./VideoMuteButton";
 

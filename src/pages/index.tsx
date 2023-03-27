@@ -43,7 +43,6 @@ const Home: NextPage = () => {
             <PrimaryButton>Create Room</PrimaryButton>
           </Link>
         </div>
-
         <div className="my-10">
           <h3 className="m-2">Signed in as: {data?.user.name}</h3>
           <SecondaryButton onClick={() => void signOut()}>Sign Out</SecondaryButton>

@@ -4,7 +4,7 @@ import { AgoraVideoPlayer } from "../../agora-rtc-react";
 import type { remoteUserType } from "../types";
 import { AgoraDict } from "../GameContainer";
 import { api } from "../../utils/api";
-import { MutedVideo } from "./MutedVideo";
+import { MutedVideo } from "../../ui/MutedVideo";
 import { distanceToUnsubscribe } from "../utils";
 
 export const RemoteVideo = (props: {
@@ -14,22 +14,18 @@ export const RemoteVideo = (props: {
 }) => {
   const { playerPos, remoteUsers, uid } = props;
   const { data } = api.main.getUserName.useQuery({ agoraId: parseInt(uid) });
+  const opacityValue = remoteUsers[parseInt(uid)]?.position
+    ? {
+        opacity:
+          1 /
+          (playerPos.distanceTo(remoteUsers[parseInt(uid)]?.position as Vector3) *
+            distanceToUnsubscribe),
+      }
+    : {};
   return (
     <>
       {AgoraDict[parseInt(uid)]?.agoraUser.videoTrack ? (
-        <div
-          className="mx-1"
-          style={
-            remoteUsers[parseInt(uid)]?.position
-              ? {
-                  opacity:
-                    1 /
-                    (playerPos.distanceTo(remoteUsers[parseInt(uid)]?.position as Vector3) *
-                      distanceToUnsubscribe),
-                }
-              : {}
-          }
-        >
+        <div className="mx-1" style={opacityValue}>
           <AgoraVideoPlayer
             className="h-24 w-24 overflow-hidden rounded-full"
             videoTrack={AgoraDict[parseInt(uid)]?.agoraUser.videoTrack as IRemoteVideoTrack}

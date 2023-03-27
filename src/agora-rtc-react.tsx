@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+
+// Agora-RTC-React helper functions based on React Query
+
 /**
  * @module Agora-RTC-React
  */

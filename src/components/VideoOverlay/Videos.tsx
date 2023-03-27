@@ -3,7 +3,7 @@ import type { ICameraVideoTrack, IMicrophoneAudioTrack } from "../../agora-rtc-r
 import { AgoraVideoPlayer } from "../../agora-rtc-react";
 import type { remoteUserType } from "../types";
 import { RemoteVideo } from "./RemoteVideo";
-import { MutedVideo } from "./MutedVideo";
+import { MutedVideo } from "../../ui/MutedVideo";
 
 export const Videos = (props: {
   remoteUsers: remoteUserType;

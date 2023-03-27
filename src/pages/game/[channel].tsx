@@ -55,13 +55,7 @@ const Call = () => {
             rtmToken={tokenDetails.data.rtm}
             rtcToken={tokenDetails.data.rtc}
             stageName={roomDetails.data.stageName}
-            character={
-              router.query.character === "birb"
-                ? characters.pet
-                : router.query.character === "devil"
-                ? characters.devil
-                : characters.timmy
-            }
+            character={characters.timmy}
           />
         </>
       ) : (

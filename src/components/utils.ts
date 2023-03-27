@@ -74,39 +74,6 @@ export const handleSprite = (
   }
 };
 
-const babyCommon = {
-  spriteSheetUrl: `/devil.png`,
-  xCount: 8,
-  yCount: 8,
-  interval: 0.2,
-  spriteX: 0,
-};
-export const spriteConfigBaby: customSpriteConfig = {
-  charSize: 1.2,
-  speed: 1,
-  stand: {
-    ...babyCommon,
-    spriteFrames: 1,
-    spriteY: 7,
-  },
-  left: {
-    ...babyCommon,
-    spriteFrames: 6,
-    spriteY: 0,
-  },
-  right: {
-    ...babyCommon,
-    spriteFrames: 6,
-    spriteY: 1,
-  },
-  up: { ...babyCommon, spriteFrames: 6, spriteX: 0, spriteY: 2, interval: 0.2 },
-  down: {
-    ...babyCommon,
-    spriteFrames: 6,
-    spriteY: 3,
-  },
-};
-
 const timmyCommon = {
   spriteSheetUrl: `/sprite.png`,
   xCount: 4,
@@ -176,7 +143,6 @@ export const spriteConfigPet: customSpriteConfig = {
 
 export const characters = {
   timmy: spriteConfigTimmy,
-  devil: spriteConfigBaby,
   pet: spriteConfigPet,
 };
 

@@ -1,4 +1,4 @@
-import type { IMicrophoneAudioTrack } from "../../agora-rtc-react";
+import type { IMicrophoneAudioTrack } from "../../../agora-rtc-react";
 import { useState } from "react";
 import { FiMic, FiMicOff } from "react-icons/fi";
 import { mics } from "./ButtonContainer";
