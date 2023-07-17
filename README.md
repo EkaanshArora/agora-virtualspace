@@ -1,8 +1,8 @@
 # Agora Virtual Space
 
-A 2D virtual space where user's can move around and voice/video chat with other user's near them.
+The Agora Virtual Space is a 2D virtual space where users can move around on screen and voice/video chat with other users in real-time.
 
-> Here's a [live demo](https://agora-virtualspace.vercel.app/)
+> Here's a [live demo](https://agora-virtualspace.vercel.app/):
 
 ![screenshot](/readmeassets/screenshot.png)
 
@@ -39,11 +39,11 @@ A 2D virtual space where user's can move around and voice/video chat with other 
 - Execute `pnpm i` (if you don't hav pnpm install with `npm i -g pnpm`)
 - Execute `pnpm run dev` to start a server on [localhost:3000](http://localhost:3000)
 
-The tools we'll use for this projects are:
-- Agora RTC & RTM SDKs
+The tools we'll use for this projects:
+- Agora RTC and RTM SDKs
 - React
-- NextJS
-- React-three-fiber
+- Next.js
+- React Three Fiber
 - Prisma
 - tRPC
 - NextAuth (GitHub)
@@ -53,11 +53,11 @@ The tools we'll use for this projects are:
 | **Feature** | **Description** |
 | --- | --- |
 | OAuth | Uses NextAuth for authentication |
-| Space Management | Create & join rooms |
-| Virtual Environment | A 2D enviornment that resembles an office or an event |
+| Space Management | Create and join rooms |
+| Virtual Environment | A 2D environment that resembles an office or an event |
 | User Avatar | A 2D avatar that the user can move around in the virtual space with the keyboard |
 | Data Synchronisation | Sync locations across user |
-| Animations | Animate the avatar with a spritesheet |
+| Animations | Animate the avatar with a sprite sheet |
 | Voice Channel | Ability for users to communicate with each other over voice |
 | Video Feeds | Display user videos |
 | Agora Tokens | Expose an API to secure rooms  |
@@ -131,9 +131,9 @@ The tools we'll use for this projects are:
 
 ## Code Breakdown
 
-### High-level App
-We're using NextJS to create our app, each route exists as a file in the `pages` directory. 
-We've implemented Auth using NextAuth, an authenticated user can create a room or view existing rooms. On room creation we store it to our database and list the rooms on the view screen. Rooms are where people can interact with each other, each room is an isolated space.
+### High-Level App
+We're using Next.js to create our app. Each route exists as a file in the `pages` directory. 
+We've implemented Auth using NextAuth.js. An authenticated user can create a room or view existing rooms. On room creation, we store the room to our database and list the rooms on the view screen. Rooms are where people can interact with one another. Each room is an isolated space:
 ```tsx
 const Home: NextPage = () => {
   const { data, status } = useSession();
@@ -183,7 +183,7 @@ const Home: NextPage = () => {
 ```
 
 ### Virtual Space Page
-We're using React-Three-Fiber which uses an HTML Canvas and ThreeJS to render out the virtual-space. The user can see themself as a "human" sprite, all remote users are rendered with a "bird" sprite of different colors. Moving close to another user starts a video chat which is rendered on top of the 2D stage in the bottom of the screen. We're using Agora RTM SDK to send & receive the positions of the users in the room. 
+We're using React Three Fiber, which uses an HTML canvas and Three.js to render the virtual space. The user can see themself as a "human" sprite. All remote users are rendered with a "bird" sprite of different colors. Moving close to another user starts a video chat that is rendered on top of the 2D stage at the bottom of the screen. We're using the Agora RTM SDK to send and receive the positions of the users in the room: 
 
 ```tsx
 <div className="h-screen w-screen bg-gray-100">
@@ -210,7 +210,7 @@ We're using React-Three-Fiber which uses an HTML Canvas and ThreeJS to render ou
 </div>
 ```
 ### Videos
-Renders the videos in the bottom of the screen
+Renders videos at the bottom of the screen:
 ```tsx
 <div className="absolute right-0 bottom-0 z-10 flex h-32 w-screen justify-center p-2">
   {Object.keys(remoteUsers).map((uid) => (
@@ -234,9 +234,9 @@ Renders the videos in the bottom of the screen
 </div>
 ```
 ### Game
-The game component is the actual react-three-fiber canvas that houses the 2D space and character rendering and logic
+The game component is the React Three Fiber canvas that houses the 2D space as well as character rendering and logic:
 #### Container
-Composes the different components we need to render on screen
+Composes the different components we need to render on-screen:
 ```tsx
 <>
   <Canvas {...bind()} style={{touchAction: 'none'}}>
@@ -256,7 +256,7 @@ Composes the different components we need to render on screen
 </>
 ```
 #### Player
-The local user is rendered by this component while also handling the user controls
+The local user is rendered by this component and it handles the user controls:
 ```tsx
 export const Player = (props: {
   setPlayerPos: Dispatch<SetStateAction<Vector3>>;
@@ -315,7 +315,7 @@ export const Player = (props: {
 };
 ```
 #### RemoteSprite
-The remote user is rendered as a remote sprite
+The remote user is rendered as a remote sprite:
 ```tsx
 export const RemoteSprite = (props: { position: Vector3; playerPos: Vector3; uid: number }) => {
   const spriteRef = useRef<Sprite>(null);
@@ -375,8 +375,8 @@ function handleSubscription(remotePos: Vector3, playerPos: Vector3, agoraUser: a
 
 ```
 ### Audio/Video Chat
-We're using the Agora RTC SDK for Audio and Video chat. On joining a room we join an Agora RTC and RTM channel. When a user moves in the requisite distance, we selectively subscribe their available audio/video.
-We've created a react wrapper for the Agora Web SDK which is used as follows:
+We're using the Agora RTC SDK for audio and video chat. On joining a room, we join an Agora RTC and RTM channel. When a user is close to another user, we selectively subscribe to their available audio/video.
+We've created a React wrapper for the Agora Web SDK, which is used as follows:
 
 ```tsx
 export const rtmChannel = rtmClient.createChannel(window.location.pathname.slice("/game/".length));
@@ -444,3 +444,4 @@ function GameContainer(props: GameProps) {
   }, [ready]);
   ...
 ```
+
