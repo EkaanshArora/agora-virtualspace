@@ -1,6 +1,6 @@
 # Agora Virtual Space
 
-The Agora Virtual Space is a 2D virtual space where users can move around on screen and voice/video chat with other users in real-time.
+The Agora Virtual Space is a demo of a web app wher users can sign up to join a 2D virtual space. Users can create a space or join existing ones. While in the 2D space, users get assigned a character that they can move around on the screen. When in close proximity of others users in that space, they can share voice & video other users in real-time.
 
 > Here's a [live demo](https://agora-virtualspace.vercel.app/):
 
@@ -90,6 +90,7 @@ The tools we'll use for this projects:
 ```
 ### Frontend Components
 ```
+components
 ├── GameContainer.tsx
 ├── GameRelated
 │   ├── Game.tsx
