@@ -6,31 +6,6 @@ The Agora Virtual Space is a demo of a web app wher users can sign up to join a 
 
 ![screenshot](/readmeassets/screenshot.png)
 
-## Table of Contents
-- [Agora Virtual Space](#agora-virtual-space)
-  * [Screenshots](#screenshots)
-    + [Home](#home)
-    + [Create Room](#create-room)
-    + [View Rooms](#view-rooms)
-    + [VirtualSpace](#virtualspace)
-  * [Features](#features)
-    + [OAuth](#oauth)
-    + [Space Management](#space-management)
-    + [Virtual Environment](#virtual-environment)
-    + [User Avatar](#user-avatar)
-    + [Data Synchronisation](#data-synchronisation)
-    + [Animations](#animations)
-    + [Voice Channel & Video Feeds](#voice-channel-video-feeds)
-    + [Agora Tokens](#agora-tokens)
-    + [Proximity Subscription](#proximity-subscription)
-    + [User controls](#user-controls)
-    + [Mobile Support](#mobile-support)
-    + [Deployment](#deployment)
-  * [Diagrams](#diagrams)
-    + [Architecture](#architecture)
-    + [User Flow](#user-flow)
-    + [Running Locally](#running-locally)
-
 ## Screenshots
 ### Home
 ![](readmeassets/home.png)
